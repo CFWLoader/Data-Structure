@@ -1,0 +1,19 @@
+# depslib dependency file v1.0
+1423370207 source:e:\codes\c++\avl_tree\src\treenode.cpp
+	"TreeNode.h"
+	<iostream>
+	<limits.h>
+
+1423387227 e:\codes\c++\avl_tree\include\treenode.h
+
+1423387894 source:e:\codes\c++\avl_tree\main.cpp
+	<iostream>
+	"BSTree.h"
+
+1423387248 e:\codes\c++\avl_tree\include\bstree.h
+	<iostream>
+	"TreeNode.h"
+
+1423387765 source:e:\codes\c++\avl_tree\src\bstree.cpp
+	"BSTree.h"
+
