@@ -1,0 +1,24 @@
+# depslib dependency file v1.0
+1423316703 source:e:\codes\c++\kmp-alg\main.cpp
+	<iostream>
+	"KMP_Alg.h"
+
+1423222503 e:\codes\c++\kmp-alg\simple_string_algorithm.h
+
+1423217863 source:e:\codes\c++\kmp-alg\simple_string_algorithm.cpp
+	<iostream>
+	"Simple_String_Algorithm.h"
+
+1423317724 source:e:\codes\c++\kmp-alg\kmp_alg.cpp
+	"KMP_Alg.h"
+
+1423316132 e:\codes\c++\kmp-alg\kmp_alg.h
+	"UnaryArray.h"
+
+1423296399 e:\codes\c++\kmp-alg\include\unaryarray.h
+	<iostream>
+	<stdexcept>
+
+1423276397 source:e:\codes\c++\kmp-alg\src\unaryarray.cpp
+	"UnaryArray.h"
+
