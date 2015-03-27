@@ -14,7 +14,11 @@ struct RedBlackTreeNode{
 };
 
 class RedBlackTree {
-
+public:
+    RedBlackTree();
+    ~RedBlackTree();
+private:
+    RedBlackTreeNode* root;
 };
 
 
