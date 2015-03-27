@@ -29,4 +29,8 @@
 
 # Specific files
 .gitignore
+.idea
+
+# File patterns
+*/.idea/
 *~
