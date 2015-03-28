@@ -2,7 +2,7 @@
 ## Mainly implementing three ways to solve hash conflicts.
 ## Linear Detection
 ## Linked List
-* ## Mapping
+## Mapping
 + ### The inspire is generated from the thoughts of computer memory cache.
 + ### I am thinking how to implement it.
 + ### This method seems useless.

@@ -6,6 +6,7 @@
 #define _HASHTABLE_HASHTABLEWITHMAPPING_H_
 
 //The class is under being speculation.
+//Because the hash value seems redundant in this implementation.
 class HashTableWithMapping {
 
 };
