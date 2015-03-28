@@ -13,7 +13,7 @@ HashTableWithLinearDetector::HashTableWithLinearDetector() : size(0), hashValue(
 }
 */
 
-HashTableWithLinearDetector::HashTableWithLinearDetector(int presetSize) : size(presetSize), hashValue(size-1), unusedFlag(std::numeric_limits<int>::min()),objects(new int[size]) {
+HashTableWithLinearDetector::HashTableWithLinearDetector(int presetSize) : size(presetSize), hashValue(size), unusedFlag(std::numeric_limits<int>::min()),objects(new int[size]) {
     initializeArray();
 }
 
