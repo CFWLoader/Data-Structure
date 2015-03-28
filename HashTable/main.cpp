@@ -3,6 +3,7 @@
 
 #include "hashtableclasses/HashTableWithLinearDetector.h"
 #include "hashtableclasses/HashTableWithLinkedList.h"
+#include "hashtableclasses/HashTableWithMapping.h"
 
 int HashTableWithLinkedList::unusedFlag = std::numeric_limits<int>::min();
 
@@ -10,11 +11,13 @@ using namespace std;
 
 int testHashTableWithLinearDetector();
 int testHashTableWithLinkedList();
+int testHashTableWithMapping();
 
 int main() {
     //cout << "Hello, World!" << endl;
     //testHashTableWithLinearDetector();
-    testHashTableWithLinkedList();
+    //testHashTableWithLinkedList();
+        testHashTableWithMapping();
     return 0;
 }
 
@@ -32,6 +35,7 @@ int testHashTableWithLinearDetector(){
         cout << htwld.get(3) << endl;
         htwld.remove(6);
         htwld.remove(6);
+        return 0;
 };
 
 int testHashTableWithLinkedList(){
@@ -48,4 +52,13 @@ int testHashTableWithLinkedList(){
         cout << "Which value do you want to delete?" << endl;
         cin >> value;
         htwll.remove(value);
+        return 0;
+}
+
+int testHashTableWithMapping(){
+        HashTableWithMapping htwm(5);
+        for(int count = 0; count < 5; ++count){
+                htwm.insert(new int(rand()%1000 + 33));
+        }
+        htwm.showTable();
 }
