@@ -11,13 +11,30 @@ struct RedBlackTreeNode{
     int key;
     Color color;
     RedBlackTreeNode* leftChild, *rightChild, *parent;
+
+    RedBlackTreeNode(int);
+
+    RedBlackTreeNode(int, Color);
+
+    RedBlackTreeNode(const RedBlackTreeNode&);
+
+    //Caution: The destructor just delete the node itself.
+    //You should design an algorithm for cascade delete.
+    ~RedBlackTreeNode();
 };
 
 class RedBlackTree {
 public:
     RedBlackTree();
     ~RedBlackTree();
+    void testDestructor();
+    void redBlackInsert(RedBlackTreeNode*);
 private:
+    void leftRotate(RedBlackTreeNode*&);
+    void rightRotate(RedBlackTreeNode*&);
+    void cascadeDeleter(RedBlackTreeNode*&);
+    void insertFixer(RedBlackTreeNode*&);
+
     RedBlackTreeNode* root;
 };
 
