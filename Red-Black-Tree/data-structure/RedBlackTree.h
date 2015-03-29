@@ -35,9 +35,11 @@ public:
     RedBlackTree();
     ~RedBlackTree();
     void redBlackInsert(RedBlackTreeNode*);
+    void showTree(std::ostream&) const;
+    void showNode(std::ostream&, RedBlackTreeNode* const &, int) const;
 private:
-    void leftRotate(RedBlackTreeNode*&);
-    void rightRotate(RedBlackTreeNode*&);
+    void leftRotate(RedBlackTreeNode*);
+    void rightRotate(RedBlackTreeNode*);
     void cascadeDeleter(RedBlackTreeNode*&);
     void insertFixer(RedBlackTreeNode*);
 
