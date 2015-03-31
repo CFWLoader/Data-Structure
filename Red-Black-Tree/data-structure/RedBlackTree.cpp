@@ -233,3 +233,7 @@ void RedBlackTree::insertFixer(RedBlackTreeNode *node) {
     }
     root->color = BLACK;                                                //Root must be black.
 }
+
+void RedBlackTree::redBlackDelete(RedBlackTreeNode* node) {
+
+}
