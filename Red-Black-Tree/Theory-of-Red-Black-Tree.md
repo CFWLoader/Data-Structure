@@ -36,5 +36,5 @@ Set its grandpa as current node and turn to next iteration.
  do a right rotation to fix it.
  
 ### Analysis of insertion
-1. After the occurrences of case 2,3,5 or 6, the iteration end because no nodes broken the traits.
+1. After the occurrences of case 2,3,5 or 6, the iteration end because no nodes break the traits.
 1. According to the analysis above, it will happen no more than twice rotations in insertion.

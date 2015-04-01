@@ -234,6 +234,37 @@ void RedBlackTree::insertFixer(RedBlackTreeNode *node) {
     root->color = BLACK;                                                //Root must be black.
 }
 
-void RedBlackTree::redBlackDelete(RedBlackTreeNode* node) {
+//This function cost me some time to understand.
+RedBlackTreeNode* RedBlackTree::successor(RedBlackTreeNode*){
 
+}
+
+RedBlackTreeNode* RedBlackTree::redBlackDelete(RedBlackTreeNode* node) {
+    RedBlackTreeNode* ptr, *child;
+    if(node->leftChild == 0 || node->rightChild == 0){
+        ptr = node;
+    }else{
+        ptr = this->successor(node);
+    }
+    if(ptr->leftChild != 0){
+        child = ptr->leftChild;
+    }else{
+        child = ptr->rightChild;
+    }
+    child->parent = ptr->parent;
+    if(ptr->parent == 0){
+        root = child;
+    }else if(ptr == child->parent->leftChild){
+        ptr->parent->leftChild = child;
+    }else{
+        ptr->parent->rightChild = child;
+    }
+    if(ptr != node){
+        node->key = ptr->key;
+    }
+    if(ptr->color == BLACK)this->deleteFixer(child);
+    return ptr;
+}
+
+void RedBlackTree::deleteFixer(RedBlackTreeNode* node) {
 }

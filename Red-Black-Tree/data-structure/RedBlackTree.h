@@ -35,7 +35,7 @@ public:
     RedBlackTree();
     ~RedBlackTree();
     void redBlackInsert(RedBlackTreeNode*);
-    void redBlackDelete(RedBlackTreeNode*);
+    RedBlackTreeNode* redBlackDelete(RedBlackTreeNode*);
     void showTree(std::ostream&) const;
     void showNode(std::ostream&, RedBlackTreeNode* const &, int) const;
 private:
@@ -44,6 +44,8 @@ private:
     void cascadeDeleter(RedBlackTreeNode*&);
     void insertFixer(RedBlackTreeNode*);
     void deleteFixer(RedBlackTreeNode*);
+    //This function cost me some time to understand.
+    RedBlackTreeNode* successor(RedBlackTreeNode*);
 
     RedBlackTreeNode* root;
 };
