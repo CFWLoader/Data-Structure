@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <cassert>
 #include "RedBlackTree.h"
 
 //#define INSERT_FIX_DEBUG
@@ -79,13 +80,14 @@ void RedBlackTree::cascadeDeleter(RedBlackTreeNode *&node) {
     node = 0;
 }
 
-void RedBlackTree::showTree(std::ostream& os) const{
+void RedBlackTree::showTree(std::ostream &os) const {
     this->showNode(os, root, 1);
 }
 
-void RedBlackTree::showNode(std::ostream& os, RedBlackTreeNode * const& node, int layer) const {
-    if(node == 0)return;
-    os << "Node->key: " << node->key << " Node->color: " << (node->color==RED?"RED":"BLACK") << " Layer: " << layer << std::endl;
+void RedBlackTree::showNode(std::ostream &os, RedBlackTreeNode *const &node, int layer) const {
+    if (node == 0)return;
+    os << "Node->key: " << node->key << " Node->color: " << (node->color == RED ? "RED" : "BLACK") << " Layer: " <<
+    layer << std::endl;
     this->showNode(os, node->leftChild, layer + 1);
     this->showNode(os, node->rightChild, layer + 1);
 }
@@ -235,36 +237,99 @@ void RedBlackTree::insertFixer(RedBlackTreeNode *node) {
 }
 
 //This function cost me some time to understand.
-RedBlackTreeNode* RedBlackTree::successor(RedBlackTreeNode*){
-
+RedBlackTreeNode *RedBlackTree::successor(RedBlackTreeNode *node) {
+    assert(node != 0);
+    if (node->rightChild == 0) {
+        RedBlackTreeNode *parent = node->parent;
+        while (parent != 0 && node != parent->rightChild) {
+            node = parent;
+            parent = node->parent;
+        }
+        node = parent;
+    } else {
+        node = node->rightChild;
+        while (node->leftChild != 0) {
+            node = node->leftChild;
+        }
+    }
+    return node;
 }
 
-RedBlackTreeNode* RedBlackTree::redBlackDelete(RedBlackTreeNode* node) {
-    RedBlackTreeNode* ptr, *child;
-    if(node->leftChild == 0 || node->rightChild == 0){
+//Binary search tree's delete method.
+RedBlackTreeNode *RedBlackTree::redBlackDelete(RedBlackTreeNode *node) {
+    RedBlackTreeNode *ptr, *child;
+    if (node->leftChild == 0 || node->rightChild == 0) {
         ptr = node;
-    }else{
+    } else {
         ptr = this->successor(node);
     }
-    if(ptr->leftChild != 0){
+    if (ptr->leftChild != 0) {
         child = ptr->leftChild;
-    }else{
+    } else {
         child = ptr->rightChild;
     }
     child->parent = ptr->parent;
-    if(ptr->parent == 0){
+    if (ptr->parent == 0) {
         root = child;
-    }else if(ptr == child->parent->leftChild){
+    } else if (ptr == child->parent->leftChild) {
         ptr->parent->leftChild = child;
-    }else{
+    } else {
         ptr->parent->rightChild = child;
     }
-    if(ptr != node){
+    if (ptr != node) {
         node->key = ptr->key;
     }
-    if(ptr->color == BLACK)this->deleteFixer(child);
+    if (ptr->color == BLACK)this->deleteFixer(child);
     return ptr;
 }
 
-void RedBlackTree::deleteFixer(RedBlackTreeNode* node) {
+void RedBlackTree::deleteFixer(RedBlackTreeNode *node) {
+    RedBlackTreeNode *ptr = 0;
+    while (node != root && node->color == BLACK) {
+        if (node == node->parent->leftChild) {                                                            //Case 1
+            ptr = node->parent->rightChild;
+            if (ptr->color == RED) {
+                ptr->color = BLACK;
+                node->parent->color = RED;
+                this->leftRotate(node->parent);
+                ptr = node->parent->rightChild;
+            }
+            if (ptr->leftChild->color == BLACK && ptr->rightChild->color == BLACK) {                      //Case 2
+                ptr->color = RED;
+                node = node->parent;
+            } else if (ptr->rightChild->color == BLACK) {                                                 //Case 3
+                ptr->leftChild->color = BLACK;
+                ptr->color = RED;
+                this->rightRotate(ptr);
+                ptr = ptr->parent->rightChild;
+            }
+            ptr->color = node->parent->color;                                                           //Case 4
+            node->parent->color = BLACK;
+            ptr->rightChild->color = BLACK;
+            node = root;
+        } else {
+            if (node == node->parent->rightChild) {                                                          //Case 5
+                ptr = node->parent->leftChild;
+                if (ptr->color == RED) {
+                    ptr->color = BLACK;
+                    node->parent->color = RED;
+                    this->rightRotate(node->parent);
+                    ptr = node->parent->leftChild;
+                }
+                if (ptr->rightChild->color == BLACK && ptr->leftChild->color == BLACK) {                      //Case 6
+                    ptr->color = RED;
+                    node = node->parent;
+                } else if (ptr->leftChild->color == BLACK) {                                                 //Case 7
+                    ptr->rightChild->color = BLACK;
+                    ptr->color = RED;
+                    this->leftRotate(ptr);
+                    ptr = ptr->parent->leftChild;
+                }
+                ptr->color = node->parent->color;                                                           //Case 8
+                node->parent->color = BLACK;
+                ptr->leftChild->color = BLACK;
+                node = root;
+            }
+        }
+    }
 }
