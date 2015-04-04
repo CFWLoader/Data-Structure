@@ -12,7 +12,9 @@ struct RedBlackTreeNode{
     Color color;
     RedBlackTreeNode* leftChild, *rightChild, *parent;
 
-    //static RedBlackTreeNode* NIL_PTR;
+    static RedBlackTreeNode* NIL_PTR;
+
+    RedBlackTreeNode();
 
     RedBlackTreeNode(int);
 
@@ -38,6 +40,8 @@ public:
     RedBlackTreeNode* redBlackDelete(RedBlackTreeNode*);
     void showTree(std::ostream&) const;
     void showNode(std::ostream&, RedBlackTreeNode* const &, int) const;
+    void writeDataToFile_JSType(std::ofstream&);
+    //void writeDataToFile_JSType(std::ofstream&, RedBlackTreeNode* const &);
     RedBlackTreeNode* binarySearch(int) const;
 
 private:

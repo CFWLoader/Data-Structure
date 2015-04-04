@@ -3,7 +3,9 @@
 //
 
 #include <iostream>
+#include <fstream>
 #include <cassert>
+#include <queue>
 #include "RedBlackTree.h"
 
 //#define INSERT_FIX_DEBUG
@@ -22,30 +24,47 @@ using namespace std;
 using namespace std;
 #endif
 
-//RedBlackTreeNode* RedBlackTreeNode::NIL_PTR = new RedBlackTreeNode();
+RedBlackTreeNode* RedBlackTreeNode::NIL_PTR = new RedBlackTreeNode();
 
-/*
+
 RedBlackTreeNode::RedBlackTreeNode() :
     key(0),
     color(BLACK),
     leftChild(this),
     rightChild(this),
     parent(this){ }
-*/
 
+/*
 RedBlackTreeNode::RedBlackTreeNode(int setKey) :
         key(setKey),
         color(RED),
         leftChild(0),
         rightChild(0),
         parent(0) { }
+        */
 
+RedBlackTreeNode::RedBlackTreeNode(int setKey) :
+        key(setKey),
+        color(RED),
+        leftChild(NIL_PTR),
+        rightChild(NIL_PTR),
+        parent(NIL_PTR) { }
+
+RedBlackTreeNode::RedBlackTreeNode(int setKey, Color setColor) :
+        key(setKey),
+        color(setColor),
+        leftChild(NIL_PTR),
+        rightChild(NIL_PTR),
+        parent(NIL_PTR) { }
+
+/*
 RedBlackTreeNode::RedBlackTreeNode(int setKey, Color setColor) :
         key(setKey),
         color(setColor),
         leftChild(0),
         rightChild(0),
         parent(0) { }
+        */
 
 RedBlackTreeNode::RedBlackTreeNode(const RedBlackTreeNode &originalNode) :
         key(originalNode.key),
@@ -62,7 +81,7 @@ RedBlackTreeNode::~RedBlackTreeNode() {
     parent = 0;
 }
 
-RedBlackTree::RedBlackTree() : root(0) { }
+RedBlackTree::RedBlackTree() : root(RedBlackTreeNode::NIL_PTR) { }
 
 RedBlackTree::~RedBlackTree() {
     //std::cerr << "Destructor invoked." << std::endl;
@@ -70,14 +89,14 @@ RedBlackTree::~RedBlackTree() {
 }
 
 void RedBlackTree::cascadeDeleter(RedBlackTreeNode *&node) {
-    if (!node)return;
-    if (node->leftChild) cascadeDeleter(node->leftChild);
-    node->leftChild = 0;
-    if (node->rightChild) cascadeDeleter(node->rightChild);
-    node->rightChild = 0;
-    node->parent = 0;
+    if (node != RedBlackTreeNode::NIL_PTR)return;
+    if (node->leftChild != RedBlackTreeNode::NIL_PTR) cascadeDeleter(node->leftChild);
+    node->leftChild = RedBlackTreeNode::NIL_PTR;
+    if (node->rightChild != RedBlackTreeNode::NIL_PTR) cascadeDeleter(node->rightChild);
+    node->rightChild = RedBlackTreeNode::NIL_PTR;
+    node->parent = RedBlackTreeNode::NIL_PTR;
     delete node;
-    node = 0;
+    node = RedBlackTreeNode::NIL_PTR;
 }
 
 void RedBlackTree::showTree(std::ostream &os) const {
@@ -85,9 +104,10 @@ void RedBlackTree::showTree(std::ostream &os) const {
 }
 
 void RedBlackTree::showNode(std::ostream &os, RedBlackTreeNode *const &node, int layer) const {
-    if (node == 0)return;
+    if (node == RedBlackTreeNode::NIL_PTR)return;
     os << "Node->key: " << node->key << " Node->color: " << (node->color == RED ? "RED" : "BLACK") << " Layer: " <<
-    layer << std::endl;
+    layer << " P-key: " << (node->parent ? node->parent->key : -9999) << " L-key: " << (node->leftChild ? node->leftChild->key : -9999) << " R-key: " << (node->rightChild ? node->rightChild->key : -9999) <<
+            std::endl;
     this->showNode(os, node->leftChild, layer + 1);
     this->showNode(os, node->rightChild, layer + 1);
 }
@@ -102,7 +122,7 @@ void RedBlackTree::leftRotate(RedBlackTreeNode *node) {
     cerr << "Right child: " << rightChild << endl;
 #endif
     rightChild->parent = node->parent;
-    if (node->parent == 0)root = rightChild;
+    if (node->parent == RedBlackTreeNode::NIL_PTR)root = rightChild;
     else if (node == node->parent->leftChild)node->parent->leftChild = rightChild;
     else node->parent->rightChild = rightChild;
     rightChild->leftChild = node;
@@ -117,7 +137,7 @@ void RedBlackTree::rightRotate(RedBlackTreeNode *node) {
     RedBlackTreeNode *leftChild = node->leftChild;
     node->leftChild = leftChild->rightChild;
     leftChild->parent = node->parent;
-    if (node->parent == 0)root = leftChild;
+    if (node->parent == RedBlackTreeNode::NIL_PTR)root = leftChild;
     else if (node == node->parent->rightChild)node->parent->rightChild = leftChild;
     else node->parent->leftChild = leftChild;
     leftChild->rightChild = node;
@@ -129,8 +149,8 @@ void RedBlackTree::rightRotate(RedBlackTreeNode *node) {
 //So we must call fixer function to fix the tree.
 void RedBlackTree::redBlackInsert(RedBlackTreeNode *node) {
     RedBlackTreeNode *iter = root;
-    RedBlackTreeNode *ptr = 0;
-    while (iter != 0) {
+    RedBlackTreeNode *ptr = RedBlackTreeNode::NIL_PTR;
+    while (iter != RedBlackTreeNode::NIL_PTR) {
         ptr = iter;
         if (ptr->key < node->key) {
             iter = iter->rightChild;
@@ -145,7 +165,7 @@ void RedBlackTree::redBlackInsert(RedBlackTreeNode *node) {
         }
     }
     node->parent = ptr;
-    if (ptr == 0) {
+    if (ptr == RedBlackTreeNode::NIL_PTR) {
         root = node;
         //root->color = BLACK;
 #ifdef RB_INSERT_DEBUG
@@ -173,12 +193,12 @@ void RedBlackTree::redBlackInsert(RedBlackTreeNode *node) {
 //Function for fixing the tree after the insert operation.
 //It seems there are six situations of fixing the tree.
 void RedBlackTree::insertFixer(RedBlackTreeNode *node) {
-    RedBlackTreeNode *ptr = 0;
+    RedBlackTreeNode *ptr = RedBlackTreeNode::NIL_PTR;
 #ifdef INSERT_FIX_DEBUG
     cerr << "Fixer is called. Pointer: " << node << " Node key: " << node->key << endl;
     //this->showTree(cerr);
 #endif
-    while (node->parent && node->parent->color == RED) {
+    while (node->parent->color == RED) {
 #ifdef INSERT_FIX_DEBUG
         //cerr << "Cases happening. " << endl;
         //this->showTree(cerr);
@@ -239,16 +259,16 @@ void RedBlackTree::insertFixer(RedBlackTreeNode *node) {
 //This function cost me some time to understand.
 RedBlackTreeNode *RedBlackTree::successor(RedBlackTreeNode *node) {
     assert(node != 0);
-    if (node->rightChild == 0) {
+    if (node->rightChild == RedBlackTreeNode::NIL_PTR) {
         RedBlackTreeNode *parent = node->parent;
-        while (parent != 0 && node != parent->rightChild) {
+        while (parent != RedBlackTreeNode::NIL_PTR && node != parent->rightChild) {
             node = parent;
             parent = node->parent;
         }
         node = parent;
     } else {
         node = node->rightChild;
-        while (node->leftChild != 0) {
+        while (node->leftChild != RedBlackTreeNode::NIL_PTR) {
             node = node->leftChild;
         }
     }
@@ -257,21 +277,22 @@ RedBlackTreeNode *RedBlackTree::successor(RedBlackTreeNode *node) {
 
 //Binary search tree's delete method.
 RedBlackTreeNode *RedBlackTree::redBlackDelete(RedBlackTreeNode *node) {
-    RedBlackTreeNode *ptr, *child;
-    if (node->leftChild == 0 || node->rightChild == 0) {
+    RedBlackTreeNode *ptr = RedBlackTreeNode::NIL_PTR, *child = RedBlackTreeNode::NIL_PTR;
+    if(node == RedBlackTreeNode::NIL_PTR) return 0;
+    if (node->leftChild == RedBlackTreeNode::NIL_PTR || node->rightChild == RedBlackTreeNode::NIL_PTR) {
         ptr = node;
     } else {
         ptr = this->successor(node);
     }
-    if (ptr->leftChild != 0) {
+    if (ptr->leftChild != RedBlackTreeNode::NIL_PTR) {
         child = ptr->leftChild;
     } else {
         child = ptr->rightChild;
     }
-    child->parent = ptr->parent;
-    if (ptr->parent == 0) {
+    if(child != RedBlackTreeNode::NIL_PTR)child->parent = ptr->parent;
+    if (child != RedBlackTreeNode::NIL_PTR && ptr->parent == RedBlackTreeNode::NIL_PTR) {
         root = child;
-    } else if (ptr == child->parent->leftChild) {
+    } else if (child != RedBlackTreeNode::NIL_PTR && ptr == child->parent->leftChild) {
         ptr->parent->leftChild = child;
     } else {
         ptr->parent->rightChild = child;
@@ -284,7 +305,7 @@ RedBlackTreeNode *RedBlackTree::redBlackDelete(RedBlackTreeNode *node) {
 }
 
 void RedBlackTree::deleteFixer(RedBlackTreeNode *node) {
-    RedBlackTreeNode *ptr = 0;
+    RedBlackTreeNode *ptr = RedBlackTreeNode::NIL_PTR;
     while (node != root && node->color == BLACK) {
         if (node == node->parent->leftChild) {                                                            //Case 1
             ptr = node->parent->rightChild;
@@ -332,11 +353,45 @@ void RedBlackTree::deleteFixer(RedBlackTreeNode *node) {
             }
         }
     }
+    root->color = BLACK;
 }
 
 RedBlackTreeNode *RedBlackTree::binarySearch(int keyValue) const {
     RedBlackTreeNode* node = root;
-    while(node != 0 && node->key != keyValue)
+    while(node != RedBlackTreeNode::NIL_PTR && node->key != keyValue)
         node = (node->key < keyValue) ? node->rightChild : node->leftChild;
     return node;
 }
+
+void RedBlackTree::writeDataToFile_JSType(std::ofstream &out) {
+    out << "rbt=[";
+    std::queue<RedBlackTreeNode*> nodeQueue;
+    if(root != RedBlackTreeNode::NIL_PTR)nodeQueue.push(root);
+    RedBlackTreeNode* ptr = RedBlackTreeNode::NIL_PTR;
+    while(!nodeQueue.empty()){
+        ptr = nodeQueue.front();
+        nodeQueue.pop();
+        if(ptr->leftChild != RedBlackTreeNode::NIL_PTR)nodeQueue.push(ptr->leftChild);
+        if(ptr->rightChild != RedBlackTreeNode::NIL_PTR)nodeQueue.push(ptr->rightChild);
+        out << "{\"key\":\"node-" << ptr->key << "\", " ;
+        if(ptr->parent != RedBlackTreeNode::NIL_PTR)out << "\"parent\":\"node-" << ptr->parent->key << "\", ";
+        else out << "\"parent\":\"node0\", ";
+        out << "\"color\":\"" << (ptr->color == RED ? "#ff0000\"}" : "#00A9C9\"}");
+        if(!nodeQueue.empty())out << ", ";
+    }
+    /*
+    this->writeDataToFile_JSType(out, root);
+    out;
+     */
+    out << "]";
+}
+
+/*
+void RedBlackTree::writeDataToFile_JSType(std::ofstream & out, RedBlackTreeNode* const &node) {
+    if(node == 0)return;
+    out << "{\"key\":\"node-" << node->key << "\", " ;
+    if(node->parent)out << "\"parent\":\"" << node->parent->key << "\", ";
+    else out << "\"parent\":\"node0\", ";
+    out << "\"color\":\"" << (node->color == RED ? "#ff0000\"}" : "#00A9C9\"},");
+}
+ */
