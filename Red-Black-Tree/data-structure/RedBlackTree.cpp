@@ -333,3 +333,10 @@ void RedBlackTree::deleteFixer(RedBlackTreeNode *node) {
         }
     }
 }
+
+RedBlackTreeNode *RedBlackTree::binarySearch(int keyValue) const {
+    RedBlackTreeNode* node = root;
+    while(node != 0 && node->key != keyValue)
+        node = (node->key < keyValue) ? node->rightChild : node->leftChild;
+    return node;
+}

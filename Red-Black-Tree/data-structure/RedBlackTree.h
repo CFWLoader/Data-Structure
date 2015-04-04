@@ -38,6 +38,8 @@ public:
     RedBlackTreeNode* redBlackDelete(RedBlackTreeNode*);
     void showTree(std::ostream&) const;
     void showNode(std::ostream&, RedBlackTreeNode* const &, int) const;
+    RedBlackTreeNode* binarySearch(int) const;
+
 private:
     void leftRotate(RedBlackTreeNode*);
     void rightRotate(RedBlackTreeNode*);

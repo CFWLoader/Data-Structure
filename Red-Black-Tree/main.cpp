@@ -17,5 +17,12 @@ int main() {
     redBlackTree.redBlackInsert(new RedBlackTreeNode(5));
      */
     redBlackTree.showTree(cout);
+    int searchKey;
+    RedBlackTreeNode* ptrRecord;
+    while(cin >> searchKey){
+        ptrRecord = redBlackTree.binarySearch(searchKey);
+        redBlackTree.redBlackDelete(ptrRecord);
+        redBlackTree.showTree(cout);
+    }
     return 0;
 }
