@@ -40,4 +40,5 @@ Set its grandpa as current node and turn to next iteration.
 1. According to the analysis above, it will happen no more than twice rotations in insertion.
 
 ### Which traits of RB-Tree will be broken in deletion.
+1. I will learn cases in deletion lately though the code is finished.
 1. Delete fixer seems will take me long time to figure it out.
