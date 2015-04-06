@@ -121,6 +121,7 @@ void RedBlackTree::leftRotate(RedBlackTreeNode *node) {
     //cerr << node->rightChild->key << endl;
     cerr << "Right child: " << rightChild << endl;
 #endif
+    if(rightChild->leftChild != RedBlackTreeNode::NIL_PTR)rightChild->leftChild->parent = node;
     rightChild->parent = node->parent;
     if (node->parent == RedBlackTreeNode::NIL_PTR)root = rightChild;
     else if (node == node->parent->leftChild)node->parent->leftChild = rightChild;
@@ -136,6 +137,7 @@ void RedBlackTree::leftRotate(RedBlackTreeNode *node) {
 void RedBlackTree::rightRotate(RedBlackTreeNode *node) {
     RedBlackTreeNode *leftChild = node->leftChild;
     node->leftChild = leftChild->rightChild;
+    if(leftChild->rightChild != RedBlackTreeNode::NIL_PTR)leftChild->rightChild->parent = node;
     leftChild->parent = node->parent;
     if (node->parent == RedBlackTreeNode::NIL_PTR)root = leftChild;
     else if (node == node->parent->rightChild)node->parent->rightChild = leftChild;

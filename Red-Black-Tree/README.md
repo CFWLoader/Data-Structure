@@ -10,6 +10,10 @@ You can read the the file `Theory-of-Red-Black-Tree.md` to know details.
 + The Red Black insert and the insert fixer seem working correctly.
 + Constructed method : RedBlackTree::treeSuccessor(args),  RedBlackTree::redBlackDelete(args),  RedBlackTree::deleteFixer(args)
 
+## Fixed problems
++ The insert fixer works incorrectly though it can modify children of a node correctly.Insert fixer can't modify parent of a node correctly.
++ Reason: The rotation codes lacks right logical codes.(Fixed code is line 124 and 140 in RedBlackTree.cpp)
+
 ## Events and problems
 + The insert fixer works incorrectly though it can modify children of a node correctly.
 + Insert fixer can't modify parent of a node correctly.
