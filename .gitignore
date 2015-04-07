@@ -30,7 +30,10 @@
 # Specific files
 .gitignore
 .idea
+Red-Black-Tree/GraphicTreeView/
 
 # File patterns
+\.*
 */.idea/
 *~
+

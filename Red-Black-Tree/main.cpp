@@ -8,10 +8,11 @@ using namespace std;
 int main() {
     //cout << "Hello, World!" << endl;
     RedBlackTree redBlackTree;
-    //ofstream jsOut("/run/media/cfwloader/Documents/Project/C++/Data-Structure/Red-Black-Tree/GraphicTreeView/myJsData.js");
+    ofstream jsOut("/run/media/cfwloader/Documents/Project/C++/Data-Structure/Red-Black-Tree/GraphicTreeView/myJsData.js");
 
-    for(int i = 0; i < 20; ++i){
-        redBlackTree.redBlackInsert(new RedBlackTreeNode(i));
+    std::srand(time(0));
+    for(int i = 0; i < 50; ++i){
+        redBlackTree.redBlackInsert(new RedBlackTreeNode(std::rand()%1999));
         /*
         ofstream jsOut("/run/media/cfwloader/Documents/Project/C++/Data-Structure/Red-Black-Tree/GraphicTreeView/myJsData.js");
 
@@ -42,6 +43,7 @@ int main() {
 
     //redBlackTree.showTree(cout);
 
+    /*
     int searchKey;
     RedBlackTreeNode* ptrRecord;
     while(cin >> searchKey) {
@@ -57,15 +59,16 @@ int main() {
         }
         jsOut.close();
     }
+     */
 
-    /*
+
     if (jsOut.is_open()) {
         redBlackTree.writeDataToFile_JSType(jsOut);
     }else{
         cout << "write failed." << endl;
     }
     jsOut.close();
-     */
+
 
     /*
     for(int i = 0; i < 20; ++i){

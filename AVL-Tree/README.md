@@ -2,12 +2,11 @@
 
 ## The algorithm is based on Binary Search Tree(BST).
 
-## The original C codes of AVL algorithm can apply in this.
+## The original C codes of AVL algorithm can't apply in this.
 
 ## I modified it.So I guess will trigger severe bugs though
 
-## it haven't occured in my test.
+## it haven't occurred in my test.
 
-## I can't understand the avl_insert algorithm.
-
-## My brain is so weak.
+There are 4 kinds of avl rotation LL, RR, LR, RL.<br/>
+I can't figure out difference of them.
