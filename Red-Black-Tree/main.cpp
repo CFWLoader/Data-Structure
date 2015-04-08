@@ -8,7 +8,7 @@ using namespace std;
 int main() {
     //cout << "Hello, World!" << endl;
     RedBlackTree redBlackTree;
-    ofstream jsOut("/run/media/cfwloader/Documents/Project/C++/Data-Structure/Red-Black-Tree/GraphicTreeView/myJsData.js");
+    //ofstream jsOut("/run/media/cfwloader/Documents/Project/C++/Data-Structure/Red-Black-Tree/GraphicTreeView/myJsData.js");
 
     std::srand(time(0));
     for(int i = 0; i < 50; ++i){
@@ -32,6 +32,13 @@ int main() {
         getchar();
          */
     }
+    ofstream tmpjsOut("/run/media/cfwloader/Documents/Project/C++/Data-Structure/Red-Black-Tree/GraphicTreeView/myJsData.js");
+    if (tmpjsOut.is_open()) {
+        redBlackTree.writeDataToFile_JSType(tmpjsOut);
+    }else{
+        cout << "write failed." << endl;
+    }
+    tmpjsOut.close();
 
     /*
     redBlackTree.redBlackInsert(new RedBlackTreeNode(1));
@@ -43,12 +50,13 @@ int main() {
 
     //redBlackTree.showTree(cout);
 
-    /*
+
     int searchKey;
     RedBlackTreeNode* ptrRecord;
     while(cin >> searchKey) {
         ptrRecord = redBlackTree.binarySearch(searchKey);
-        redBlackTree.redBlackDelete(ptrRecord);
+        ptrRecord = redBlackTree.redBlackDelete(ptrRecord);
+        if(ptrRecord != nullptr)delete ptrRecord;
         //redBlackTree.showTree(cout);
         ofstream jsOut("/run/media/cfwloader/Documents/Project/C++/Data-Structure/Red-Black-Tree/GraphicTreeView/myJsData.js");
 
@@ -59,16 +67,17 @@ int main() {
         }
         jsOut.close();
     }
-     */
 
 
+
+    /*
     if (jsOut.is_open()) {
         redBlackTree.writeDataToFile_JSType(jsOut);
     }else{
         cout << "write failed." << endl;
     }
     jsOut.close();
-
+     */
 
     /*
     for(int i = 0; i < 20; ++i){

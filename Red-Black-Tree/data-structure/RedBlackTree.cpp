@@ -291,10 +291,13 @@ RedBlackTreeNode *RedBlackTree::redBlackDelete(RedBlackTreeNode *node) {
     } else {
         child = ptr->rightChild;
     }
-    if(child != RedBlackTreeNode::NIL_PTR)child->parent = ptr->parent;
-    if (child != RedBlackTreeNode::NIL_PTR && ptr->parent == RedBlackTreeNode::NIL_PTR) {
+    //if(child != RedBlackTreeNode::NIL_PTR)child->parent = ptr->parent;
+    child->parent = ptr->parent;
+    //if (child != RedBlackTreeNode::NIL_PTR && ptr->parent == RedBlackTreeNode::NIL_PTR) {
+    if (ptr->parent == RedBlackTreeNode::NIL_PTR) {
         root = child;
-    } else if (child != RedBlackTreeNode::NIL_PTR && ptr == child->parent->leftChild) {
+    //} else if (child != RedBlackTreeNode::NIL_PTR && ptr == child->parent->leftChild) {
+    } else if (ptr == ptr->parent->leftChild) {
         ptr->parent->leftChild = child;
     } else {
         ptr->parent->rightChild = child;

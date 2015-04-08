@@ -32,13 +32,16 @@ Set its grandpa as current node and turn to next iteration.
  Then the next operation is in case 3.
  
 1. Current node's uncle is black and it is left child of its parent.
-* Solution: After the operation of case 2,the broken trait must be 4. We paint current node's parent black and its grandpa red and
+* Solution: After the operation of case 2,the broken trait must be trait 4. We paint current node's parent black and its grandpa red and
  do a right rotation to fix it.
  
 ### Analysis of insertion
 1. After the occurrences of case 2,3,5 or 6, the iteration end because no nodes break the traits.
 1. According to the analysis above, it will happen no more than twice rotations in insertion.
 
+### Traits keep stable in deletion
+1. Every node in the red black tree, its black height do not change int deletion.
+1. Two red nodes will not be adjacent after deletion.
+1. The replacer node of deleted node can't be root node if it's red. So the root keeps black in deletion. 
+
 ### Which traits of RB-Tree will be broken in deletion.
-1. I will learn cases in deletion lately though the code is finished.
-1. Delete fixer seems will take me long time to figure it out.
