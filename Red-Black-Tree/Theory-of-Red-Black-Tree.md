@@ -45,3 +45,6 @@ Set its grandpa as current node and turn to next iteration.
 1. The replacer node of deleted node can't be root node if it's red. So the root keeps black in deletion. 
 
 ### Which traits of RB-Tree will be broken in deletion.
+1. If the deleting node is black:
+* Trait 2 will be broken if the deleting node is root and its red child is becoming root.
+* 
