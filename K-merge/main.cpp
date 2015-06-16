@@ -2,14 +2,21 @@
 #include <vector>
 
 #include "RandomNumberGenerator.hpp"
+//#include "TestClass.h"
 #include "FileBuffer.h"
+#include "KMergeSorter.h"
 
 using namespace std;
 
 int main(int argc, char* argv[])
 {
-	FileBuffer fileBuffer("./datas/originBig.dat", 20);
+	//FileBuffer fileBuffer("./datas/originBig.dat", 20);
 	//FileBuffer fileBuffer("./datas/testSmall.dat", 20);
+	//FileBuffer fileBuffer("./datas/originLess.dat", 20);
+
+	KMergeSorter kMergerSorter("./datas/originLess.dat", 10000);
+
+	kMergerSorter.sliceBigFile();
 
 	//fileBuffer.loadData();
 
@@ -27,13 +34,14 @@ int main(int argc, char* argv[])
 	}
 	*/
 
+	/*
 	int count = 1;
 
-	uint64_t temp;
-
-	while((temp = fileBuffer.getHeadData()) < static_cast<uint64_t>(INT64_INFINITY))
+	while(fileBuffer.getHeadData() < static_cast<uint64_t>(INT64_INFINITY))
 	{
-		cout << temp << endl;
+		cout << fileBuffer.getHeadData() << endl;
+
+		fileBuffer.popHeadData();
 
 		if(count > 200)break;
 
@@ -41,17 +49,18 @@ int main(int argc, char* argv[])
 	}
 
 	cout << endl;
+	*/
 	
 	/*
 	RandomNumberGenerator generator;
 
-	OutputFile output("./datas/originBig.dat");
+	OutputFile output("./datas/originLess.dat");
 
 	vector<uint64_t>&& result = generator.generateNSequenceOfInt64(10000);
 
 	bool writeResult = true;
 
-	for(int i = 0; i < 500; ++i)
+	for(int i = 0; i < 5; ++i)
 	{
 		writeResult = output.outputTheSequenceData(result);
 
@@ -63,7 +72,6 @@ int main(int argc, char* argv[])
 		generator.generateNSequenceOfInt64(result, 10000);
 	}
 	*/
-	
 
 	return 0;
 }

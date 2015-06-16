@@ -3,6 +3,8 @@
 
 OutputFile::OutputFile(const std::string& filename) : out(filename, std::ios_base::trunc){}
 
+OutputFile::OutputFile(const std::string& filename, std::ios_base::openmode flags) : out(filename, std::ios_base::trunc | flags){}
+
 OutputFile::~OutputFile()
 {
 	out.close();
@@ -46,7 +48,7 @@ bool FileBuffer::bufferIsEmpty()
 
 void FileBuffer::loadData()
 {
-	std::cout << "Loading." << std::endl;
+	//std::cout << "Loading." << std::endl;
 
 	if(!in.is_open())
 	{
@@ -81,16 +83,33 @@ uint64_t FileBuffer::getHeadData()
 
 	//std::cout << availableSize << std::endl;
 
-	++currentIndex;
+	//++currentIndex;
 
 	//std::cout << " In buffer:   " << buffer[currentIndex] << std::endl;
 
-	--availableSize;
+	//--availableSize;
 
-	return buffer[currentIndex];
+	return buffer[currentIndex + 1];
+}
+
+void FileBuffer::popHeadData()
+{
+	++currentIndex;
+
+	--availableSize;
 }
 
 std::vector<uint64_t>& FileBuffer::getBuffer()
 {
 	return buffer;
+}
+
+std::ifstream& FileBuffer::getRawInputStream()
+{
+	return in;
+}
+
+void FileBuffer::clearBuffer()
+{
+	availableSize = 0;
 }

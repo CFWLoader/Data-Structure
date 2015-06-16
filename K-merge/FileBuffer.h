@@ -36,7 +36,13 @@ public:
 
 	uint64_t getHeadData();
 
+	void popHeadData();
+
 	std::vector<uint64_t>& getBuffer();
+
+	std::ifstream& getRawInputStream();
+
+	void clearBuffer();
 
 private:
 
@@ -58,6 +64,8 @@ class OutputFile
 public:
 
 	OutputFile(const std::string&);
+
+	OutputFile(const std::string&, std::ios_base::openmode);
 
 	~OutputFile();
 
