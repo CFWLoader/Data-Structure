@@ -14,7 +14,7 @@ int main(int argc, char* argv[])
 	//FileBuffer fileBuffer("./datas/testSmall.dat", 20);
 	//FileBuffer fileBuffer("./datas/originLess.dat", 20);
 
-	KMergeSorter kMergerSorter("./datas/originLess.dat", 10000);
+	KMergeSorter kMergerSorter("./datas/originBig.dat", 10000000);
 
 	kMergerSorter.sliceBigFile();
 
@@ -58,13 +58,13 @@ int main(int argc, char* argv[])
 	/*
 	RandomNumberGenerator generator;
 
-	OutputFile output("./datas/originLess.dat");
+	OutputFile output("./datas/originBig.dat");
 
 	vector<uint64_t>&& result = generator.generateNSequenceOfInt64(10000);
 
 	bool writeResult = true;
 
-	for(int i = 0; i < 5; ++i)
+	for(int i = 0; i < 5000; ++i)
 	{
 		writeResult = output.outputTheSequenceData(result);
 

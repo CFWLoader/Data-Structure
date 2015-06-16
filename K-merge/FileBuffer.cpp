@@ -35,7 +35,10 @@ bool OutputFile::outputTheSequenceData(const std::vector<uint64_t>& intVector)
 	return true;
 }
 
-FileBuffer::FileBuffer(const std::string& filename, size_t size) : in(filename), maxSize(size), currentIndex(-1), availableSize(0), buffer(size), keyLess(){}
+FileBuffer::FileBuffer(const std::string& filename, size_t size) : in(filename), maxSize(size), currentIndex(-1), availableSize(0), buffer(size), keyLess()
+{
+	//std::cout << "Buffer size : " << buffer.size() << std::endl;
+}
 
 FileBuffer::~FileBuffer()
 {

@@ -11,7 +11,9 @@ KMergeSorter::KMergeSorter(const std::string& srcFilename, size_t theBufferSize)
 	bufferSize(theBufferSize),
 	outputBuffer(theBufferSize),
 	slicedFilenames()
-{}
+{
+	//std::cout << "KMergeSorter buffer size : " << bufferSize << std::endl;
+}
 
 KMergeSorter::~KMergeSorter(){}
 
@@ -45,7 +47,7 @@ std::string KMergeSorter::filenameMangler()
 {
 	++k;
 
-	char mangledName[5];
+	char mangledName[50];
 
 	_itoa_s(k, mangledName, 10);
 
