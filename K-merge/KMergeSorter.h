@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <memory>
 #include "FileBuffer.h"
 
 class KMergeSorter
@@ -23,9 +24,11 @@ public:
 
 	uint64_t getMinimunKeyInBuffers();
 
+	void merge();
+
 private:
 
-	std::vector<FileBuffer> fileBuffers;
+	std::vector<std::unique_ptr<FileBuffer> > fileBuffers;
 
 	FileBuffer rawInput;
 

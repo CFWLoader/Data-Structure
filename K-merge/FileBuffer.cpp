@@ -1,5 +1,6 @@
 #include "FileBuffer.h"
 #include "RandomNumberGenerator.hpp"
+#include <cstdio>
 
 OutputFile::OutputFile(const std::string& filename) : out(filename, std::ios_base::trunc){}
 
@@ -27,7 +28,7 @@ bool OutputFile::outputTheSequenceData(const std::vector<uint64_t>& intVector)
 	{
 		out << *iter;
 
-		if(i % 11 == 0)out << std::endl;
+		if(i % 5 == 0)out << std::endl;
 		else out << " ";
 	}
 
@@ -48,7 +49,28 @@ bool FileBuffer::bufferIsEmpty()
 
 void FileBuffer::loadData()
 {
-	//std::cout << "Loading." << std::endl;
+	
+	//std::cout << "Loading." << "   EOF:  " << in.eof() << "  Pos:" << in.tellg() << std::endl;
+
+	/*
+	if(in.tellg() >= 1019904)
+	{
+		char temp;
+
+		//std::cout << in.peek() << std::endl;
+
+		while(!in.eof())
+		{
+			std::cout << "Peeking:  " << in.peek() << std::endl;
+
+			in >> temp;
+
+			//std::cout << "Peeking:  " << in.peek() << std::endl;
+
+			std::cout << "Split Reading:   " << (int)temp << "   Now pos:  " << in.tellg() << std::endl;
+		}
+	}
+	*/
 
 	if(!in.is_open())
 	{
@@ -62,6 +84,13 @@ void FileBuffer::loadData()
 
 		++availableSize;
 	}
+
+	//std::cout << "Last buffer element:   " << static_cast<uint64_t>(buffer[availableSize - 1]) << "    Index:  " << availableSize - 1 << std::endl;
+	char temp;
+
+	in >> temp;												//Eat the space for preventing reread of the end of file.
+
+	if(in.eof() && (availableSize == 0))buffer.clear();
 
 	currentIndex = -1;
 }
@@ -111,5 +140,7 @@ std::ifstream& FileBuffer::getRawInputStream()
 
 void FileBuffer::clearBuffer()
 {
+	currentIndex = -1;
+
 	availableSize = 0;
 }

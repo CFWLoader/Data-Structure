@@ -20,6 +20,8 @@ class FileBuffer
 {
 public:
 
+	explicit FileBuffer(const FileBuffer&);
+
 	explicit FileBuffer(const std::string&, size_t);
 
 	~FileBuffer();

@@ -18,6 +18,10 @@ int main(int argc, char* argv[])
 
 	kMergerSorter.sliceBigFile();
 
+	kMergerSorter.prepareFileBuffers();
+
+	kMergerSorter.merge();
+
 	//fileBuffer.loadData();
 
 	//fileBuffer.sortBuffer(KeyLess());
@@ -50,7 +54,7 @@ int main(int argc, char* argv[])
 
 	cout << endl;
 	*/
-	
+
 	/*
 	RandomNumberGenerator generator;
 
