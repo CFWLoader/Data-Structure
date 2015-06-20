@@ -10,7 +10,12 @@ HeapNode::HeapNode(unsigned long keyValue) : parent(nullptr),
 
 HeapNode::~HeapNode()
 {
-	parent = nullptr;
+	if(parent != nullptr)
+	{
+		parent->setChild(nullptr);
+
+		parent = nullptr;
+	}
 
 	if (child != nullptr)
 	{

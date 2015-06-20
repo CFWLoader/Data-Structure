@@ -1,7 +1,13 @@
 digraph theGraph{
 	node3[ label = "K:3\nG:2"];
 	node4[ label = "K:4\nG:0"];
-	node5[ label = "K:5\nG:0"];
+	node7[ label = "K:7\nG:0"];
+	node5[ label = "K:5\nG:1"];
+	node33[ label = "K:33\nG:0"];
 	node3->node4
+	node4->node3
 	node3->node5
+	node5->node3
+	node5->node33
+	node33->node5
 }

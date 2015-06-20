@@ -86,11 +86,18 @@ void GraphvizOutput::generateEdges(HeapNode* root)
 			{
 				output << "\tnode" << iterator->getKey() << "->node" << childIterator->getKey() << std::endl;
 
+				output << "\tnode" << childIterator->getKey() << "->node" << childIterator->getParent()->getKey() << std::endl;
+
 				childIterator = childIterator->getBrother();
 			}
 		}
 
-		if(iterator->getBrother() != nullptr) heapNodeQueue.push_back(iterator->getBrother());	
+		if(iterator->getBrother() != nullptr)
+		{ 
+			heapNodeQueue.push_back(iterator->getBrother());
+
+			//output << "\tnode" << iterator->getKey() << "->node" << iterator->getBrother()->getKey() << "[label = \"PT brother\"]" << std::endl;
+		}
 
 	}
 }
