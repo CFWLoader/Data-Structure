@@ -35,6 +35,20 @@ HeapNode* HeapNode::getParent() const
 void HeapNode::setParent(HeapNode* newParent)
 {
 	parent = newParent;
+	/*
+	HeapNode* oldParent = parent;
+
+	parent = newParent;
+
+	HeapNode* ptr = brother;
+
+	while(ptr != nullptr)
+	{
+		ptr->setParent(parent);
+
+		ptr = ptr->getBrother();
+	}
+	*/
 }
 
 HeapNode* HeapNode::getChild() const
@@ -50,7 +64,9 @@ void HeapNode::setChild(HeapNode* newChild)
 		degree = 0;
 	}
 	else
-	{ 
+	{
+		degree = 0;
+
 		HeapNode* ptr = newChild;
 
 		while(ptr != nullptr)
@@ -76,18 +92,35 @@ void HeapNode::setBrother(HeapNode* newBrother)
 {
 	if(parent != nullptr)
 	{
+
 		HeapNode* ptr = nullptr;
+
+		ptr = brother;
+
+		while(ptr != nullptr)
+		{
+			parent->decreaseDegree();
+
+			ptr->setParent(nullptr);
+
+			ptr = ptr->getBrother();
+		}
 
 		if(newBrother == nullptr)
 		{
 			ptr = brother;
 
+			/*
+
 			while(ptr != nullptr)
 			{
 				parent->decreaseDegree();
 
+				ptr->setParent(nullptr);
+
 				ptr = ptr->getBrother();
 			}
+			*/
 		}
 		else 
 		{
@@ -102,11 +135,6 @@ void HeapNode::setBrother(HeapNode* newBrother)
 				ptr = ptr->getBrother();
 			}
 		}
-	}
-
-	if(brother != nullptr)
-	{
-		
 	}
 	
 	brother = newBrother;
@@ -134,6 +162,8 @@ void HeapNode::setDegree(unsigned long newDegree)
 
 void HeapNode::clearRelationships()
 {
+	if(parent != nullptr)parent->decreaseDegree();
+	
 	parent = nullptr;
 
 	child = nullptr;

@@ -2,10 +2,13 @@
 
 #include "HeapNode.h"
 
+#include "GraphvizOutput.h"
+
 using namespace std;
 
 int main(int argc, char* argv[])
 {
+	/*
 	HeapNode* root = new HeapNode(3);
 
 	HeapNode* child = new HeapNode(4);
@@ -27,6 +30,8 @@ int main(int argc, char* argv[])
 	cout << child2->getParent()->getKey() << endl;
 
 	delete root;
+	*/
+	GraphvizOutput("./testFile.dot");
 
 	return 0;
 }
