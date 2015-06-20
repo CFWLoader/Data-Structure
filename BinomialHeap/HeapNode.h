@@ -35,6 +35,8 @@ public:
 
 	void decreaseDegree();
 
+	void link(HeapNode*);
+
 private:
 
 	HeapNode* parent,

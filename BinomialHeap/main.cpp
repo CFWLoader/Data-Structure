@@ -1,10 +1,14 @@
 #include <iostream>
 
-#include "HeapNode.h"
+#include "BinomialHeap.h"
 
 #include "GraphvizOutput.h"
 
 using namespace std;
+
+HeapNode* sample1();
+
+HeapNode* sample2();
 
 int main(int argc, char* argv[])
 {
@@ -49,12 +53,115 @@ int main(int argc, char* argv[])
 
 	//root->setBrother(nullptr);
 	*/
+	//BinomialHeap bHeap;
+
+	/*
 
 	GraphvizOutput gOut("./testFile.dot");
 
 	gOut.generateDirectionalGraph(root);
 
 	delete root;
+	*/
+	BinomialHeap heap1(sample1());
+
+	BinomialHeap heap2(sample2());
+
+	BinomialHeap* newHeap = heap1.unionHeap(&heap2);
+
+	heap1.detach();
+
+	heap2.detach();
+
+	GraphvizOutput finalHeap("./diagram/FinalHeap.dot");
+
+	finalHeap.generateDirectionalGraph(newHeap->getRoot());
+
+	delete newHeap;
 
 	return 0;
+}
+
+HeapNode* sample1()
+{
+	HeapNode* r1 = new HeapNode(12), *currentRoot;
+
+	r1->setBrother(new HeapNode(7));
+
+	r1->getBrother()->setChild(new HeapNode(25));
+
+	r1->getBrother()->setBrother(new HeapNode(15));
+
+	currentRoot = r1->getBrother()->getBrother();
+
+	currentRoot->setChild(new HeapNode(28));
+
+	currentRoot->getChild()->setBrother(new HeapNode(33));
+
+	currentRoot->getChild()->setChild(new HeapNode(41));
+
+	GraphvizOutput heap1("./diagram/Heap1.dot");
+
+	heap1.generateDirectionalGraph(r1);
+
+	//delete r1;
+
+	return r1;
+}
+
+HeapNode* sample2()
+{
+	HeapNode* r2 = new HeapNode(18), *currentRoot;
+
+	r2->setBrother(new HeapNode(3));
+
+	r2->getBrother()->setBrother(new HeapNode(6));
+
+	r2->getBrother()->setChild(new HeapNode(37));
+
+	currentRoot = r2->getBrother()->getBrother();
+
+	currentRoot->setChild(new HeapNode(8));
+
+	currentRoot = currentRoot->getChild();
+
+	currentRoot->setBrother(new HeapNode(29));
+
+	currentRoot->getBrother()->setBrother(new HeapNode(10));
+
+	currentRoot->getBrother()->getBrother()->setBrother(new HeapNode(44));
+
+	currentRoot->getBrother()->getBrother()->setChild(new HeapNode(17));
+
+	currentRoot->getBrother()->setChild(new HeapNode(48));
+
+	currentRoot->getBrother()->getChild()->setChild(new HeapNode(50));
+
+	currentRoot->getBrother()->getChild()->setBrother(new HeapNode(31));
+
+	currentRoot->setChild(new HeapNode(30));
+
+	currentRoot = currentRoot->getChild();
+
+	currentRoot->setBrother(new HeapNode(23));
+
+	currentRoot->getBrother()->setBrother(new HeapNode(22));
+
+	currentRoot->getBrother()->setChild(new HeapNode(24));
+
+	currentRoot->setChild(new HeapNode(45));
+
+	currentRoot = currentRoot->getChild();
+
+	currentRoot->setBrother(new HeapNode(32));
+
+	currentRoot->setChild(new HeapNode(55));
+
+	GraphvizOutput heap2("./diagram/Heap2.dot");
+
+	heap2.generateDirectionalGraph(r2);
+
+	//delete r2;
+
+	return r2;
 }

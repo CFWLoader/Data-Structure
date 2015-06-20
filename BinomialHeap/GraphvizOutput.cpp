@@ -29,9 +29,13 @@ void GraphvizOutput::generateDirectionalGraph(HeapNode* root)
 
 	output << "}" << std::endl;
 
+	std::string targetFilename(filename.begin(), filename.end() - 3);
+
+	targetFilename.append("jpg");
+
 	char command[256];
 
-	snprintf(command, 256, "dot -Tjpg -o theHeap.jpg %s", filename.c_str());
+	snprintf(command, 256, "dot -Tjpg -o %s %s", targetFilename.c_str(), filename.c_str());
 
 	system(command);
 }

@@ -187,3 +187,10 @@ void HeapNode::decreaseDegree()
 {
 	--degree;
 }
+
+void HeapNode::link(HeapNode* newParent)
+{
+	this->setBrother(newParent->getChild());
+
+	newParent->setChild(this);
+}
