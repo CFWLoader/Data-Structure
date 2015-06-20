@@ -14,9 +14,11 @@ public:
 
 	~GraphvizOutput();
 
-	void generateDirectionalGraph(const HeapNode*);
+	void generateDirectionalGraph(HeapNode*);
 
-	void generateNodes(const HeapNode*);
+	void generateNodes(HeapNode*);
+
+	void generateEdges(HeapNode*);
 
 	//void generateGraph();
 

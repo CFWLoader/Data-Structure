@@ -1,0 +1,7 @@
+digraph theGraph{
+	node3[ label = "K:3\nG:2"];
+	node4[ label = "K:4\nG:0"];
+	node5[ label = "K:5\nG:0"];
+	node3->node4
+	node3->node5
+}
