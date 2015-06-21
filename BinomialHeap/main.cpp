@@ -85,11 +85,9 @@ int main(int argc, char* argv[])
 
 	string baseName = "./diagram/FinalHeapState";
 
-	while(counter < 10)
+	while(newHeap->minimum() < ULONG_INF)
 	{
 		cout << "Min key:  " << newHeap->extractMin() << endl;
-
-		/*
 
 		string stateName(baseName);
 
@@ -104,8 +102,6 @@ int main(int argc, char* argv[])
 		GraphvizOutput finalHeapState(stateName);
 
 		finalHeapState.generateDebuggingGraph(newHeap->getRoot());
-		
-		*/
 
 	}
 

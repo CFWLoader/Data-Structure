@@ -3,6 +3,8 @@
 
 #include "HeapNode.h"
 
+extern const unsigned long ULONG_INF;
+
 class BinomialHeap
 {
 public:

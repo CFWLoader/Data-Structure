@@ -270,7 +270,7 @@ unsigned long BinomialHeap::extractMin()
 
 	HeapNode* prev = root;
 
-	minKeyNode = prev;
+	minKeyNode = root;
 
 	HeapNode* minPrev = prev;
 
@@ -311,6 +311,8 @@ unsigned long BinomialHeap::extractMin()
 	}
 
 	minPrev->setBrother(minKeyNode->getBrother());												//Reassemblying the min key heap.
+
+	if(minKeyNode == this->root)this->root = minKeyNode->getBrother();									//If the target is self.
 /*
 #ifdef EXTRACTMIN_DEBUGGING
 
