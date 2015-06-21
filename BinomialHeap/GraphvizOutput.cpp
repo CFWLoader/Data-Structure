@@ -105,3 +105,54 @@ void GraphvizOutput::generateEdges(HeapNode* root)
 
 	}
 }
+
+void GraphvizOutput::generateDebuggingGraph(HeapNode* root)
+{
+	output << "digraph theGraph{" << std::endl;
+
+	this->generateDebuggingNodes(root);
+
+	this->generateEdges(root);
+
+	output << "}" << std::endl;
+
+	std::string targetFilename(filename.begin(), filename.end() - 3);
+
+	targetFilename.append("jpg");
+
+	char command[256];
+
+	snprintf(command, 256, "dot -Tjpg -o %s %s", targetFilename.c_str(), filename.c_str());
+
+	system(command);
+}
+
+void GraphvizOutput::generateDebuggingNodes(HeapNode* root)
+{
+	if(root == nullptr) return ;
+
+	std::deque<HeapNode*> heapNodeQueue;
+
+	heapNodeQueue.push_back(root);
+
+	HeapNode* iterator;
+
+	while(!heapNodeQueue.empty())
+	{
+		iterator = heapNodeQueue.front();
+
+		heapNodeQueue.pop_front();
+
+		if(iterator->getChild() != nullptr) heapNodeQueue.push_back(iterator->getChild());
+		if(iterator->getBrother() != nullptr) heapNodeQueue.push_back(iterator->getBrother());
+
+		output << "\tnode" << iterator->getKey() 
+			<< "[ label = \"T:" << iterator
+			<< "\\nK:" << iterator->getKey() 
+			<< "\\nG:" << iterator->getDegree() 
+			<< "\\nP:" << iterator->getParent()
+			<< "\\nC:" << iterator->getChild()
+			<< "\\nB:" << iterator->getBrother()
+			<< "\"];" << std::endl;
+	}
+}

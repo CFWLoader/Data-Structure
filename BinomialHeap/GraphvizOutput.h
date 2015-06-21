@@ -20,6 +20,10 @@ public:
 
 	void generateEdges(HeapNode*);
 
+	void generateDebuggingGraph(HeapNode*);
+
+	void generateDebuggingNodes(HeapNode*);
+
 	//void generateGraph();
 
 private:

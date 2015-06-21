@@ -3,11 +3,20 @@
 #include <limits>
 #include <vector>
 #include <algorithm>
+#include <iostream>
 
 #include "GraphvizOutput.h"
 #include "Auxiliary.h"
 
 //#define DEBUGGING
+
+//#define EXTRACTMIN_DEBUGGING
+
+#ifdef EXTRACTMIN_DEBUGGING
+
+unsigned long extractMinCounter = 0;
+
+#endif
 
 bool degreeLess(HeapNode* a, HeapNode* b)
 {
@@ -228,25 +237,198 @@ void BinomialHeap::insert(HeapNode* newNode)
 
 unsigned long BinomialHeap::extractMin()
 {
+
+#ifdef EXTRACTMIN_DEBUGGING
+
+	char number[20];
+
+	std::string baseName = "./diagram/extractMinQuickShot";
+
+	++extractMinCounter;
+
+	/*
+
+	std::string beforeOperationStateName(baseName);
+
+	_itoa_s(extractMinCounter, number, 10);
+
+	beforeOperationStateName.append(number);
+
+	beforeOperationStateName.append("-foreHeap");
+
+	beforeOperationStateName.append(".dot");
+
+	GraphvizOutput foreHeapStateQuickShot(beforeOperationStateName);
+
+	foreHeapStateQuickShot.generateDirectionalGraph(this->getRoot());
+
+	*/
+
+#endif
+
 	if(root == nullptr) return ULONG_INF;
 
-	HeapNode* nodeIterator = root;
+	HeapNode* prev = root;
 
-	minKeyNode = nodeIterator;
+	minKeyNode = prev;
 
-	HeapNode* prev = nullptr;
+	HeapNode* minPrev = prev;
+
+	HeapNode* nodeIterator = prev->getBrother();
+
+/*
+#ifdef EXTRACTMIN_DEBUGGING
+
+	std::string beforeOperationStateName(baseName);
+
+	_itoa_s(extractMinCounter, number, 10);
+
+	beforeOperationStateName.append(number);
+
+	beforeOperationStateName.append("-foreHeap");
+
+	beforeOperationStateName.append(".dot");
+
+	GraphvizOutput foreHeapStateQuickShot(beforeOperationStateName);
+
+	foreHeapStateQuickShot.generateDirectionalGraph(this->getRoot());
+
+#endif
+*/
 
 	while(nodeIterator != nullptr)																//Find the minimum key in the roots.
 	{
 		if(nodeIterator->getKey() < minKeyNode->getKey())
 		{
+			minPrev = prev;
+
 			minKeyNode = nodeIterator;
 		}
+
+		prev = nodeIterator;
 
 		nodeIterator = nodeIterator->getBrother();
 	}
 
+	minPrev->setBrother(minKeyNode->getBrother());												//Reassemblying the min key heap.
+/*
+#ifdef EXTRACTMIN_DEBUGGING
 
+	std::string sourceStateName(baseName);
+
+	_itoa_s(extractMinCounter, number, 10);
+
+	sourceStateName.append(number);
+
+	sourceStateName.append("-srcHeap");
+
+	sourceStateName.append(".dot");
+
+	GraphvizOutput srcHeapStateQuickShot(sourceStateName);
+
+	srcHeapStateQuickShot.generateDirectionalGraph(this->getRoot());
+
+#endif
+*/
+	unsigned long resultValue = minKeyNode->getKey();
+
+	HeapNode* childs = minKeyNode->getChild();
+
+	while(childs != nullptr)
+	{
+		childs->setParent(nullptr);
+
+		childs = childs->getBrother();
+	}
+
+	BinomialHeap* heapPie = new BinomialHeap(minKeyNode->getChild());
+/*
+#ifdef EXTRACTMIN_DEBUGGING
+
+	std::string beforeStateName(baseName);
+
+	_itoa_s(extractMinCounter, number, 10);
+
+	beforeStateName.append(number);
+
+	beforeStateName.append("-HeapPie-before");
+
+	beforeStateName.append(".dot");
+
+	GraphvizOutput beforeStateQuickShot(beforeStateName);
+
+	beforeStateQuickShot.generateDirectionalGraph(heapPie->getRoot());
+
+#endif
+*/
+
+	heapPie = heapPie->merge(new BinomialHeap());
+
+#ifdef EXTRACTMIN_DEBUGGING
+
+	std::string stateName(baseName);
+
+	_itoa_s(extractMinCounter, number, 10);
+
+	stateName.append(number);
+
+	stateName.append("-HeapPie-merged");
+
+	stateName.append(".dot");
+
+	GraphvizOutput stateQuickShot(stateName);
+
+	stateQuickShot.generateDirectionalGraph(heapPie->getRoot());
+
+	std::string srcHeapStateName(baseName);
+
+	_itoa_s(extractMinCounter, number, 10);
+
+	srcHeapStateName.append(number);
+
+	srcHeapStateName.append("-srcHeap-before-union");
+
+	srcHeapStateName.append(".dot");
+
+	GraphvizOutput srcHeapStateQuickShot(srcHeapStateName);
+
+	srcHeapStateQuickShot.generateDirectionalGraph(this->getRoot());
+
+#endif
+
+	minKeyNode->clearRelationships();
+
+	delete minKeyNode;
+
+	minKeyNode = nullptr;
+
+	heapPie = this->unionHeap(heapPie);
+
+#ifdef EXTRACTMIN_DEBUGGING
+
+	std::string unionedStateName(baseName);
+
+	_itoa_s(extractMinCounter, number, 10);
+
+	unionedStateName.append(number);
+
+	unionedStateName.append("-HeapPie-union");
+
+	unionedStateName.append(".dot");
+
+	GraphvizOutput unionedHeapPie(unionedStateName);
+
+	unionedHeapPie.generateDirectionalGraph(heapPie->getRoot());
+
+#endif
+
+	root = heapPie->root;
+
+	heapPie->detach();
+
+	delete heapPie;
+
+	return resultValue;
 }
 
 HeapNode* BinomialHeap::decreaseKey(HeapNode* targetNode, unsigned long newKey)
@@ -278,4 +460,6 @@ HeapNode* BinomialHeap::decreaseKey(HeapNode* targetNode, unsigned long newKey)
 
 		ptrParent = ptr->getParent();
 	}
+
+	return new HeapNode(targetNode->getKey());
 }

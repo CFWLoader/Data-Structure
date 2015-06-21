@@ -4,6 +4,8 @@
 
 #include "GraphvizOutput.h"
 
+#include "Auxiliary.h"
+
 using namespace std;
 
 HeapNode* sample1();
@@ -76,6 +78,36 @@ int main(int argc, char* argv[])
 	GraphvizOutput finalHeap("./diagram/FinalHeap.dot");
 
 	finalHeap.generateDirectionalGraph(newHeap->getRoot());
+
+	int counter = 0;
+
+	char number[20];
+
+	string baseName = "./diagram/FinalHeapState";
+
+	while(counter < 10)
+	{
+		cout << "Min key:  " << newHeap->extractMin() << endl;
+
+		/*
+
+		string stateName(baseName);
+
+		_itoa_s(counter, number, 10);
+
+		stateName.append(number);
+
+		stateName.append(".dot");
+
+		++counter;
+
+		GraphvizOutput finalHeapState(stateName);
+
+		finalHeapState.generateDebuggingGraph(newHeap->getRoot());
+		
+		*/
+
+	}
 
 	/*
 
