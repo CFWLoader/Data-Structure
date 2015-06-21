@@ -18,20 +18,20 @@ unsigned long extractMinCounter = 0;
 
 #endif
 
-bool degreeLess(HeapNode* a, HeapNode* b)
+bool degreeLess(HeapNode* a, HeapNode* b)										//For sorting the roots of heap via generic algorithm.
 {
 	return a->getDegree() < b->getDegree();
 }
 
-const unsigned long ULONG_INF = std::numeric_limits<unsigned long>::max();
+const unsigned long ULONG_INF = std::numeric_limits<unsigned long>::max();		//Define maximum value as the bound of the system.
 
-BinomialHeap::BinomialHeap() : root(nullptr), minKeyNode(nullptr)
+BinomialHeap::BinomialHeap() : root(nullptr), minKeyNode(nullptr)				//Empty constructor.
 {}
 
 BinomialHeap::BinomialHeap(HeapNode* settingRoot) : root(settingRoot), minKeyNode(nullptr)
-{}
+{}																				//For a constructed heap.
 
-BinomialHeap::~BinomialHeap()
+BinomialHeap::~BinomialHeap()													//Implicitly deleting the heap.
 {
 	if(root != nullptr)
 	{
@@ -41,20 +41,20 @@ BinomialHeap::~BinomialHeap()
 	}
 }
 
-void BinomialHeap::detach()
+void BinomialHeap::detach()														//In case of delivering to another heap.
 {
 	root = nullptr;
 
 	minKeyNode = nullptr;
 }
 
-unsigned long BinomialHeap::minimum()
+unsigned long BinomialHeap::minimum()											//Get minimum key in the heap without deleting it.
 {
 	unsigned long result = ULONG_INF;
 
 	HeapNode* ptr = root;
 
-	while(ptr != nullptr)
+	while(ptr != nullptr)														//The minimum key must exist in roots.
 	{
 		if(result > ptr->getKey())
 		{
@@ -73,7 +73,7 @@ BinomialHeap* BinomialHeap::unionHeap(BinomialHeap* bHeap)
 {
 	BinomialHeap* newHeap = this->merge(bHeap);
 
-	HeapNode* ptr = newHeap->root, *prevs = nullptr, *next = nullptr;
+	HeapNode* ptr = newHeap->root, *prevs = nullptr, *next = nullptr;			//Visiting the heap via three pointer.
 
 	if(ptr == nullptr)return newHeap;
 
@@ -89,7 +89,7 @@ BinomialHeap* BinomialHeap::unionHeap(BinomialHeap* bHeap)
 
 #endif
 
-	while(next != nullptr)
+	while(next != nullptr)														//Cases are in page 284.
 	{
 
 #ifdef DEBUGGING
@@ -154,7 +154,7 @@ BinomialHeap* BinomialHeap::merge(BinomialHeap* bHeap)
 
 	std::vector<HeapNode*> nodeContainer;
 
-	HeapNode* ptr = this->root, *prevs;
+	HeapNode* ptr = this->root, *prevs;											//Two heaps are being dealt respectively.
 
 	while(ptr != nullptr)
 	{
@@ -164,7 +164,7 @@ BinomialHeap* BinomialHeap::merge(BinomialHeap* bHeap)
 
 		ptr = ptr->getBrother();
 
-		prevs->setBrother(nullptr);
+		prevs->setBrother(nullptr);												//Destroy roots' brother relation for sorting the heap roots.
 	}
 
 	ptr = bHeap->root;
@@ -180,7 +180,7 @@ BinomialHeap* BinomialHeap::merge(BinomialHeap* bHeap)
 		prevs->setBrother(nullptr);
 	}
 
-	std::sort(nodeContainer.begin(), nodeContainer.end(), degreeLess);
+	std::sort(nodeContainer.begin(), nodeContainer.end(), degreeLess);			//Sorting.
 
 	std::vector<HeapNode*>::const_iterator iter = nodeContainer.begin(), end = nodeContainer.end();
 
@@ -190,14 +190,14 @@ BinomialHeap* BinomialHeap::merge(BinomialHeap* bHeap)
 
 		++iter;
 	}
-	else
+	else																		//If the roots are nullptr.
 	{
 		ptr = nullptr;
 	}
 
 	mergedHeap = new BinomialHeap(ptr);
 
-	while(iter != end)
+	while(iter != end)															//Reassemlying their brother relation.
 	{
 		ptr->setBrother(*iter);
 
@@ -228,11 +228,13 @@ void BinomialHeap::insert(HeapNode* newNode)
 
 	heapPie->root = newNode;
 
-	heapPie = this->unionHeap(heapPie);
+	heapPie = this->unionHeap(heapPie);											//Setting the new node as a heap for using the union operation.
 
 	root = heapPie->root;
 
 	heapPie->detach();
+
+	delete heapPie;
 }
 
 unsigned long BinomialHeap::extractMin()
@@ -334,7 +336,7 @@ unsigned long BinomialHeap::extractMin()
 */
 	unsigned long resultValue = minKeyNode->getKey();
 
-	HeapNode* childs = minKeyNode->getChild();
+	HeapNode* childs = minKeyNode->getChild();													//Update new roots' parent to nullptr.
 
 	while(childs != nullptr)
 	{
@@ -343,7 +345,7 @@ unsigned long BinomialHeap::extractMin()
 		childs = childs->getBrother();
 	}
 
-	BinomialHeap* heapPie = new BinomialHeap(minKeyNode->getChild());
+	BinomialHeap* heapPie = new BinomialHeap(minKeyNode->getChild());							//Building a new heap for using heap operation.
 /*
 #ifdef EXTRACTMIN_DEBUGGING
 
@@ -398,7 +400,7 @@ unsigned long BinomialHeap::extractMin()
 
 #endif
 
-	minKeyNode->clearRelationships();
+	minKeyNode->clearRelationships();															//The extracted key has to detach the relations.
 
 	delete minKeyNode;
 
@@ -426,7 +428,7 @@ unsigned long BinomialHeap::extractMin()
 
 	root = heapPie->root;
 
-	heapPie->detach();
+	heapPie->detach();																			//Clean temporary variables.
 
 	delete heapPie;
 

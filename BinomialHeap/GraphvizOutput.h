@@ -6,6 +6,8 @@
 
 #include "HeapNode.h"
 
+//The class is for debugging the heap via viewing the visual diagram.
+//The class generates the tree.
 class GraphvizOutput
 {
 public:

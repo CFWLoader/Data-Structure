@@ -5,10 +5,10 @@ HeapNode::HeapNode(unsigned long keyValue) : parent(nullptr),
 									brother(nullptr),
 									key(keyValue),
 									degree(0)
-{}
+{}																						//A explicit constructor requiring a key value.
 
 
-HeapNode::~HeapNode()
+HeapNode::~HeapNode()																	//Before deleting the node, you should remember to detach it from the heap.
 {
 	if(parent != nullptr)
 	{
@@ -63,7 +63,7 @@ inline HeapNode* HeapNode::getChild() const
 }
 */
 
-void HeapNode::setChild(HeapNode* newChild)
+void HeapNode::setChild(HeapNode* newChild)											//Setting a child node is implicitly setting child's parent.
 {
 
 	if(newChild == nullptr)
@@ -76,8 +76,8 @@ void HeapNode::setChild(HeapNode* newChild)
 
 		HeapNode* ptr = newChild;
 
-		while(ptr != nullptr)
-		{
+		while(ptr != nullptr)														//Notice that the child may has brother.
+		{																			//Counting the degree correctly is important.
 			this->increaseDegree();
 
 			ptr->setParent(this);
@@ -99,9 +99,9 @@ inline HeapNode* HeapNode::getBrother() const
 
 void HeapNode::setBrother(HeapNode* newBrother)
 {
-	if(parent != nullptr)
-	{
-
+	if(parent != nullptr)															//Key of this function is update the parent's degree correctly.
+	{																				//Decreasing the parent's key via counting the old brother.
+																					//Increasing the parent's key via counting the new brother.
 		HeapNode* ptr = nullptr;
 
 		ptr = brother;

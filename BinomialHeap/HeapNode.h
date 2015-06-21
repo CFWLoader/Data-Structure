@@ -5,11 +5,11 @@ class HeapNode
 {
 public:
 
-	explicit HeapNode(unsigned long);
+	explicit HeapNode(unsigned long);													//inline function must be declare in header file.
 
 	~HeapNode();
 
-	inline HeapNode* getParent() const;
+	inline HeapNode* getParent() const;													//Getters and Setters.
 
 	inline void setParent(HeapNode*);
 
@@ -25,17 +25,17 @@ public:
 
 	inline void setKey(unsigned long);
 
-	inline unsigned long getDegree() const;
+	inline unsigned long getDegree() const;												//Degree is a reference for merging the heaps.
 
 	inline void setDegree(unsigned long);
 
-	inline void clearRelationships();
+	inline void clearRelationships();													//For destructing a single node.
 
 	inline void increaseDegree();
 
 	inline void decreaseDegree();
 
-	inline void link(HeapNode*);
+	inline void link(HeapNode*);														//Setting the comming node as self parent node.
 
 private:
 
@@ -104,7 +104,7 @@ inline void HeapNode::setDegree(unsigned long newDegree)
 
 inline void HeapNode::clearRelationships()
 {
-	if(parent != nullptr)parent->decreaseDegree();
+	if(parent != nullptr)parent->decreaseDegree();										//This operations are intelligent because their can update their parent's degree correctly.
 	
 	parent = nullptr;
 
