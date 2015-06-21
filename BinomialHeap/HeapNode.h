@@ -9,33 +9,33 @@ public:
 
 	~HeapNode();
 
-	HeapNode* getParent() const;
+	inline HeapNode* getParent() const;
 
-	void setParent(HeapNode*);
+	inline void setParent(HeapNode*);
 
-	HeapNode* getChild() const;
+	inline HeapNode* getChild() const;
 
 	void setChild(HeapNode*);
 
-	HeapNode* getBrother() const;
+	inline HeapNode* getBrother() const;
 
 	void setBrother(HeapNode*);
 
-	unsigned long getKey() const;
+	inline unsigned long getKey() const;
 
-	void setKey(unsigned long);
+	inline void setKey(unsigned long);
 
-	unsigned long getDegree() const;
+	inline unsigned long getDegree() const;
 
-	void setDegree(unsigned long);
+	inline void setDegree(unsigned long);
 
-	void clearRelationships();
+	inline void clearRelationships();
 
-	void increaseDegree();
+	inline void increaseDegree();
 
-	void decreaseDegree();
+	inline void decreaseDegree();
 
-	void link(HeapNode*);
+	inline void link(HeapNode*);
 
 private:
 
@@ -47,5 +47,89 @@ private:
 
 	unsigned long degree;
 };
+
+inline HeapNode* HeapNode::getParent() const
+{
+	return parent;
+}
+
+inline void HeapNode::setParent(HeapNode* newParent)
+{
+	parent = newParent;
+	/*
+	HeapNode* oldParent = parent;
+
+	parent = newParent;
+
+	HeapNode* ptr = brother;
+
+	while(ptr != nullptr)
+	{
+		ptr->setParent(parent);
+
+		ptr = ptr->getBrother();
+	}
+	*/
+}
+
+inline HeapNode* HeapNode::getChild() const
+{
+	return child;
+}
+
+inline HeapNode* HeapNode::getBrother() const
+{
+	return brother;
+}
+
+inline unsigned long HeapNode::getKey() const
+{
+	return key;
+}
+
+inline void HeapNode::setKey(unsigned long newKey)
+{
+	key = newKey;
+}
+
+inline unsigned long HeapNode::getDegree() const
+{
+	return degree;
+}
+
+inline void HeapNode::setDegree(unsigned long newDegree)
+{
+	degree = newDegree;
+}
+
+inline void HeapNode::clearRelationships()
+{
+	if(parent != nullptr)parent->decreaseDegree();
+	
+	parent = nullptr;
+
+	child = nullptr;
+
+	brother = nullptr;
+
+	degree = 0;
+}
+
+inline void HeapNode::increaseDegree()
+{
+	++degree;
+}
+
+inline void HeapNode::decreaseDegree()
+{
+	--degree;
+}
+
+inline void HeapNode::link(HeapNode* newParent)
+{
+	this->setBrother(newParent->getChild());
+
+	newParent->setChild(this);
+}
 
 #endif

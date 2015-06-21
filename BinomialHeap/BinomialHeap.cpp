@@ -35,6 +35,8 @@ BinomialHeap::~BinomialHeap()
 void BinomialHeap::detach()
 {
 	root = nullptr;
+
+	minKeyNode = nullptr;
 }
 
 unsigned long BinomialHeap::minimum()
@@ -95,8 +97,8 @@ BinomialHeap* BinomialHeap::unionHeap(BinomialHeap* bHeap)
 
 #endif
 
-		if((ptr->getDegree() != next->getDegree()) || 
-			(next->getBrother() != nullptr && next->getBrother()->getDegree() == ptr->getDegree()))				//Case 1 and 2
+		if((ptr->getDegree() != next->getDegree()) || 															//Case 1
+			(next->getBrother() != nullptr && next->getBrother()->getDegree() == ptr->getDegree()))				//Case 2
 		{
 			prevs = ptr;
 
@@ -209,4 +211,71 @@ BinomialHeap* BinomialHeap::merge(BinomialHeap* bHeap)
 HeapNode* BinomialHeap::getRoot() const
 {
 	return root;
+}
+
+void BinomialHeap::insert(HeapNode* newNode)
+{
+	BinomialHeap* heapPie = new BinomialHeap();
+
+	heapPie->root = newNode;
+
+	heapPie = this->unionHeap(heapPie);
+
+	root = heapPie->root;
+
+	heapPie->detach();
+}
+
+unsigned long BinomialHeap::extractMin()
+{
+	if(root == nullptr) return ULONG_INF;
+
+	HeapNode* nodeIterator = root;
+
+	minKeyNode = nodeIterator;
+
+	HeapNode* prev = nullptr;
+
+	while(nodeIterator != nullptr)																//Find the minimum key in the roots.
+	{
+		if(nodeIterator->getKey() < minKeyNode->getKey())
+		{
+			minKeyNode = nodeIterator;
+		}
+
+		nodeIterator = nodeIterator->getBrother();
+	}
+
+
+}
+
+HeapNode* BinomialHeap::decreaseKey(HeapNode* targetNode, unsigned long newKey)
+{
+	if((targetNode == nullptr) || newKey > targetNode->getKey())
+	{
+		std::cerr << "Passing a NULL pointer or The new key is greater than current key." << std::endl;
+
+		return nullptr;
+	}
+
+	targetNode->setKey(newKey);
+
+	HeapNode* ptr = targetNode;
+
+	HeapNode* ptrParent = ptr->getParent();
+
+	unsigned long tempKey;
+
+	while(ptrParent != nullptr && ptr->getKey() < ptrParent->getKey())										//In case of the node is a child node of other nodes.
+	{
+		tempKey = ptr->getKey();
+
+		ptr->setKey(ptrParent->getKey());
+
+		ptrParent->setKey(tempKey);
+
+		ptr = ptrParent;
+
+		ptrParent = ptr->getParent();
+	}
 }

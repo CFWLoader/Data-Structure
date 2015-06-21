@@ -23,6 +23,12 @@ public:
 
 	HeapNode* getRoot() const;
 
+	void insert(HeapNode*);
+
+	unsigned long extractMin();
+
+	HeapNode* decreaseKey(HeapNode*, unsigned long);
+
 private:
 
 	HeapNode* root;

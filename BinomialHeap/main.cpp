@@ -77,6 +77,21 @@ int main(int argc, char* argv[])
 
 	finalHeap.generateDirectionalGraph(newHeap->getRoot());
 
+	/*
+
+	newHeap->insert(new HeapNode(1));
+
+	GraphvizOutput finalHeapInserted1("./diagram/FinalHeap-inserted1.dot");
+
+	finalHeapInserted1.generateDirectionalGraph(newHeap->getRoot());
+
+	newHeap->insert(new HeapNode(3));
+
+	GraphvizOutput finalHeapInserted2("./diagram/FinalHeap-inserted2.dot");
+
+	finalHeapInserted2.generateDirectionalGraph(newHeap->getRoot());
+	*/
+
 	delete newHeap;
 
 	return 0;

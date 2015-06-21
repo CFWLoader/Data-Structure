@@ -31,4 +31,4 @@ clean:
 	rm -rf *.o
 
 cleanall:
-	rm -rf $(TARGET) *.o
+	rm -rf $(TARGET) *.o ./diagram/*

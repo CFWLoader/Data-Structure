@@ -32,15 +32,16 @@ HeapNode::~HeapNode()
 	}
 }
 
-HeapNode* HeapNode::getParent() const
+/*
+inline HeapNode* HeapNode::getParent() const
 {
 	return parent;
 }
 
-void HeapNode::setParent(HeapNode* newParent)
+inline void HeapNode::setParent(HeapNode* newParent)
 {
 	parent = newParent;
-	/*
+	
 	HeapNode* oldParent = parent;
 
 	parent = newParent;
@@ -53,13 +54,14 @@ void HeapNode::setParent(HeapNode* newParent)
 
 		ptr = ptr->getBrother();
 	}
-	*/
+	//////////////////////////////////////////////////////////////////////////////////
 }
 
-HeapNode* HeapNode::getChild() const
+inline HeapNode* HeapNode::getChild() const
 {
 	return child;
 }
+*/
 
 void HeapNode::setChild(HeapNode* newChild)
 {
@@ -88,10 +90,12 @@ void HeapNode::setChild(HeapNode* newChild)
 	child = newChild;
 }
 
-HeapNode* HeapNode::getBrother() const
+/*
+inline HeapNode* HeapNode::getBrother() const
 {
 	return brother;
 }
+*/
 
 void HeapNode::setBrother(HeapNode* newBrother)
 {
@@ -145,27 +149,29 @@ void HeapNode::setBrother(HeapNode* newBrother)
 	brother = newBrother;
 }
 
-unsigned long HeapNode::getKey() const
+/*
+
+inline unsigned long HeapNode::getKey() const
 {
 	return key;
 }
 
-void HeapNode::setKey(unsigned long newKey)
+inline void HeapNode::setKey(unsigned long newKey)
 {
 	key = newKey;
 }
 
-unsigned long HeapNode::getDegree() const
+inline unsigned long HeapNode::getDegree() const
 {
 	return degree;
 }
 
-void HeapNode::setDegree(unsigned long newDegree)
+inline void HeapNode::setDegree(unsigned long newDegree)
 {
 	degree = newDegree;
 }
 
-void HeapNode::clearRelationships()
+inline void HeapNode::clearRelationships()
 {
 	if(parent != nullptr)parent->decreaseDegree();
 	
@@ -178,19 +184,20 @@ void HeapNode::clearRelationships()
 	degree = 0;
 }
 
-void HeapNode::increaseDegree()
+inline void HeapNode::increaseDegree()
 {
 	++degree;
 }
 
-void HeapNode::decreaseDegree()
+inline void HeapNode::decreaseDegree()
 {
 	--degree;
 }
 
-void HeapNode::link(HeapNode* newParent)
+inline void HeapNode::link(HeapNode* newParent)
 {
 	this->setBrother(newParent->getChild());
 
 	newParent->setChild(this);
 }
+*/
