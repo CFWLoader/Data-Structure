@@ -465,3 +465,10 @@ HeapNode* BinomialHeap::decreaseKey(HeapNode* targetNode, unsigned long newKey)
 
 	return new HeapNode(targetNode->getKey());
 }
+
+void BinomialHeap::deleteNode(HeapNode* target)
+{
+	this->decreaseKey(target, 0);
+
+	this->extractMin();
+}

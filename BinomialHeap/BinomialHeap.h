@@ -31,6 +31,8 @@ public:
 
 	HeapNode* decreaseKey(HeapNode*, unsigned long);
 
+	void deleteNode(HeapNode*);
+
 private:
 
 	HeapNode* root;
