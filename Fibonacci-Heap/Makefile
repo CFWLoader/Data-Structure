@@ -10,7 +10,7 @@ FibonacciHeap: FibonacciHeapNode.o FibonacciHeap.o main.o
 	$(CC) -o $@ $(CPPFLAGS) $<
 
 main.o: main.cpp
-	$(CC) -o $@ $(CPPFLAGS) -c $<
+	$(CC) -o $@ $(CPPFLAGS) $<
 
 FibonacciHeapNode.o: FibonacciHeapNode.cpp FibonacciHeapNode.h
 	$(CC) -o $@ $(CPPFLAGS) -c $<
