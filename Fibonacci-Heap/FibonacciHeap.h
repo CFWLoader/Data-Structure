@@ -11,9 +11,18 @@ public:
 	~FibonacciHeap();
 
 	bool insert(unsigned long);
-	
+
+	inline FibonacciHeapNode* getRoots() const;
+
 private:
+	bool updateRoots(FibonacciHeapNode*);
+
 	FibonacciHeapNode* root;
 };
+
+inline FibonacciHeapNode* FibonacciHeap::getRoots() const
+{
+	return root;
+}
 
 #endif

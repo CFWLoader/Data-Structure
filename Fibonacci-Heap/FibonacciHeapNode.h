@@ -15,7 +15,7 @@ public:
 
 	inline FibonacciHeapNode* getChild() const;
 
-	inline void setChild(FibonacciHeapNode*);
+	void setChild(FibonacciHeapNode*);
 
 	inline FibonacciHeapNode* getLeft() const;
 
@@ -40,6 +40,8 @@ public:
 	inline bool isMarked() const;
 
 	inline void setMarkFlag(bool);
+
+	void detach();
 
 private:
 
@@ -68,11 +70,6 @@ inline void FibonacciHeapNode::setParent(FibonacciHeapNode* newParent)
 inline FibonacciHeapNode* FibonacciHeapNode::getChild() const
 {
 	return child;
-}
-
-inline void FibonacciHeapNode::setChild(FibonacciHeapNode* newChild)
-{
-	this->child = newChild;
 }
 
 inline FibonacciHeapNode* FibonacciHeapNode::getLeft() const
@@ -110,7 +107,7 @@ inline unsigned long FibonacciHeapNode::getDegree() const
 	return degree;
 }
 
-inline void FibonacciHeapNode::setDegree(unsigned long newDegree) const
+inline void FibonacciHeapNode::setDegree(unsigned long newDegree)
 {
 	this->degree = newDegree;
 }

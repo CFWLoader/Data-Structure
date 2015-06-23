@@ -6,7 +6,7 @@ TARGET = FibonacciHeap
 
 all: $(TARGET)
 
-FibonacciHeap: FibonacciHeapNode.o FibonacciHeap.o main.o
+FibonacciHeap: FibonacciHeapNode.o FibonacciHeap.o GraphvizOutput.o main.o
 	$(CC) -o $@ $(CPPFLAGS) $^
 
 main.o: main.cpp
@@ -18,5 +18,11 @@ FibonacciHeapNode.o: FibonacciHeapNode.cpp FibonacciHeapNode.h
 FibonacciHeap.o: FibonacciHeap.cpp FibonacciHeap.h
 	$(CC) -o $@ $(CPPFLAGS) -c $<
 
+GraphvizOutput.o: GraphvizOutput.cpp GraphvizOutput.h
+	$(CC) -o $@ $(CPPFLAGS) -c $<
+
 clean:
 	rm -rf *.o
+
+cleanall:
+	rm -rf *.o $(TARGET) ./diagram/*
