@@ -1,7 +1,7 @@
 #ifndef FIBONACCIHEAP_H_
 #define FIBONACCIHEAP_H_
 
-#include "FibonacciHeapNode.h"
+class FibonacciHeapNode;
 
 class FibonacciHeap
 {
@@ -9,6 +9,9 @@ public:
 	FibonacciHeap();
 
 	~FibonacciHeap();
+
+	bool insert(unsigned long);
+	
 private:
 	FibonacciHeapNode* root;
 };

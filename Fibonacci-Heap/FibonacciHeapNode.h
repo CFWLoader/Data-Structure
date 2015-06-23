@@ -29,6 +29,18 @@ public:
 
 	inline void setKey(unsigned long);
 
+	inline unsigned long getDegree() const;
+
+	inline void setDegree(unsigned long);
+
+	inline void increaseDegree();
+
+	inline void decreaseDegree();
+
+	inline bool isMarked() const;
+
+	inline void setMarkFlag(bool);
+
 private:
 
 	FibonacciHeapNode* parent;
@@ -37,6 +49,10 @@ private:
 	FibonacciHeapNode* right;
 
 	unsigned long key;
+
+	unsigned long degree;
+
+	bool markFlag;
 };
 
 inline FibonacciHeapNode* FibonacciHeapNode::getParent() const
@@ -87,6 +103,36 @@ inline unsigned long FibonacciHeapNode::getKey() const
 inline void FibonacciHeapNode::setKey(unsigned long newKey)
 {
 	this->key = newKey;
+}
+
+inline unsigned long FibonacciHeapNode::getDegree() const
+{
+	return degree;
+}
+
+inline void FibonacciHeapNode::setDegree(unsigned long newDegree) const
+{
+	this->degree = newDegree;
+}
+
+inline void FibonacciHeapNode::increaseDegree()
+{
+	++degree;
+}
+
+inline void FibonacciHeapNode::decreaseDegree()
+{
+	--degree;
+}
+
+inline bool FibonacciHeapNode::isMarked() const
+{
+	return markFlag;
+}
+
+inline void FibonacciHeapNode::setMarkFlag(bool theFlag)
+{
+	this->markFlag = theFlag;
 }
 
 #endif
