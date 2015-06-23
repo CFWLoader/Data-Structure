@@ -18,11 +18,13 @@ int main(int argc, char* argv[])
 
 	theHeap.insert(4);
 
-	theHeap.getRoots()->setChild(new FibonacciHeapNode(84));
-
 	theHeap.insert(5);
 
 	theHeap.insert(666);
+
+	theHeap.getRoots()->getRight()->setChild(new FibonacciHeapNode(43));
+
+	theHeap.getRoots()->getLeft()->setChild(new FibonacciHeapNode(57));
 
 	/*
 

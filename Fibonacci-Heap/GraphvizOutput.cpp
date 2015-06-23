@@ -50,6 +50,8 @@ void GraphvizOutput::generateNodes(FibonacciHeapNode* root)
 
 	std::deque<FibonacciHeapNode*> heapNodeQueue;
 
+	std::deque<FibonacciHeapNode*> childContainer;
+
 	heapNodeQueue.push_back(root);
 
 	FibonacciHeapNode* iterator, *layerHead;
@@ -64,12 +66,33 @@ void GraphvizOutput::generateNodes(FibonacciHeapNode* root)
 
 		heapNodeQueue.pop_front();
 
-		if(iterator->getChild() != nullptr) this->generateNodes(iterator->getChild());
-		if(iterator->getRight() != layerHead) heapNodeQueue.push_back(iterator->getRight());
+		if(iterator->getChild() != nullptr) 
+		{
+			childContainer.push_back(iterator->getChild());
+
+			//output << "\t\t//Adding child key:  " << iterator->getChild()->getKey() << std::endl;
+		}
+
+		if(iterator->getRight() != layerHead)
+		{
+			heapNodeQueue.push_back(iterator->getRight());
+		}
+		else if(heapNodeQueue.empty())
+		{
+			heapNodeQueue.assign(childContainer.begin(), childContainer.end());
+
+			//output << "\t\t//Next Iteration Container Size:  " << heapNodeQueue.size() << std::endl;
+
+			childContainer.clear();
+
+			layerHead = heapNodeQueue.front();
+		}
+		else
+		{
+			layerHead = heapNodeQueue.front();
+		}
 
 		output << "\tnode" << iterator->getKey() << "[ label = \"K:" << iterator->getKey() << "\\nG:" << iterator->getDegree() << "\"];" << std::endl;
-
-		if(iterator == layerHead->getChild())layerHead = iterator;
 	}
 }
 
@@ -78,6 +101,8 @@ void GraphvizOutput::generateEdges(FibonacciHeapNode* root)
 	if(root == nullptr) return ;
 
 	std::deque<FibonacciHeapNode*> heapNodeQueue;
+
+	std::deque<FibonacciHeapNode*> childContainer;
 
 	heapNodeQueue.push_back(root);
 
@@ -89,39 +114,45 @@ void GraphvizOutput::generateEdges(FibonacciHeapNode* root)
 	{
 		iterator = heapNodeQueue.front();
 
-		//heapNodeQueue.pop_front();
+		heapNodeQueue.pop_front();
 
 		if(iterator->getChild() != nullptr) 
 		{
-
-			this->generateEdges(iterator->getChild());
-
 			childIterator = iterator->getChild();
 
 			childLayerHead = childIterator;
 
 			do
 			{
+				childContainer.push_back(childIterator);
+
 				output << "\tnode" << iterator->getKey() << "->node" << childIterator->getKey() << std::endl;
 
 				output << "\tnode" << childIterator->getKey() << "->node" << childIterator->getParent()->getKey() << std::endl;
 
 				childIterator = childIterator->getRight();
 			} while(childIterator->getRight() != childLayerHead);
+
 		}
 
 		if(iterator->getRight() != layerHead)
-		{ 
+		{
 			heapNodeQueue.push_back(iterator->getRight());
+		}
+		else if(heapNodeQueue.empty())
+		{
+			heapNodeQueue.assign(childContainer.begin(), childContainer.end());
 
-			//output << "\tnode" << iterator->getKey() << "->node" << iterator->getBrother()->getKey() << "[label = \"PT brother\"]" << std::endl;
+			//output << "\t\t//Next Iteration Container Size:  " << heapNodeQueue.size() << std::endl;
+
+			childContainer.clear();
+
+			layerHead = heapNodeQueue.front();
 		}
 		else
 		{
-			layerHead = heapNodeQueue.front()->getChild();
+			layerHead = heapNodeQueue.front();
 		}
-
-		heapNodeQueue.pop_front();
 
 	}
 }

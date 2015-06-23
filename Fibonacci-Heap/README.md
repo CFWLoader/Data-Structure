@@ -1,8 +1,12 @@
 # Fibonacci Heap
 
+Algorithms in F-Heap almost use do-while structure to fix the bidirectional link.<br/>
+
 ## Reach Target
 -	Construction of Node data structure.
 
-## Current Problem
+## Fixed Problem
 -	GraphvizOutput class can't generate edges correctly.
 -	Memory leaking in FibonacciHeapNode class's detructor.
+
+## Current Problem

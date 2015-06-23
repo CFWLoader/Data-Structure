@@ -19,11 +19,11 @@ public:
 
 	inline FibonacciHeapNode* getLeft() const;
 
-	inline void setLeft(FibonacciHeapNode*);
+	void setLeft(FibonacciHeapNode*);
 
 	inline FibonacciHeapNode* getRight() const;
 
-	inline void setRight(FibonacciHeapNode*);
+	void setRight(FibonacciHeapNode*);
 
 	inline unsigned long getKey() const;
 
@@ -77,19 +77,9 @@ inline FibonacciHeapNode* FibonacciHeapNode::getLeft() const
 	return left;
 }
 
-inline void FibonacciHeapNode::setLeft(FibonacciHeapNode* newLeft)
-{
-	this->left = newLeft;
-}
-
 inline FibonacciHeapNode* FibonacciHeapNode::getRight() const
 {
 	return right;
-}
-
-inline void FibonacciHeapNode::setRight(FibonacciHeapNode* newRight)
-{
-	this->right = newRight;
 }
 
 inline unsigned long FibonacciHeapNode::getKey() const
