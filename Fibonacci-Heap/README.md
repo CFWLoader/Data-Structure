@@ -10,3 +10,4 @@ Algorithms in F-Heap almost use do-while structure to fix the bidirectional link
 -	Memory leaking in FibonacciHeapNode class's detructor.
 
 ## Current Problem
+-	Logic of setting brothers leads fatal error.

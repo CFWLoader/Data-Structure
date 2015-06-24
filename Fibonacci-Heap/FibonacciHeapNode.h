@@ -45,6 +45,8 @@ public:
 
 private:
 
+	inline void releaseRight();										//For destructor.
+
 	FibonacciHeapNode* parent;
 	FibonacciHeapNode* child;
 	FibonacciHeapNode* left;
@@ -120,6 +122,11 @@ inline bool FibonacciHeapNode::isMarked() const
 inline void FibonacciHeapNode::setMarkFlag(bool theFlag)
 {
 	this->markFlag = theFlag;
+}
+
+inline void FibonacciHeapNode::releaseRight()
+{
+	this->right = nullptr;
 }
 
 #endif

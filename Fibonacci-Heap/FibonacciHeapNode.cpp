@@ -20,7 +20,9 @@ FibonacciHeapNode::~FibonacciHeapNode()
 
 	if(left != nullptr)
 	{
-		left->setRight(nullptr);									//Set right's left to nullptr for breaking the loop.
+		left->releaseRight();										//Set right's left to nullptr for breaking the loop.
+																	//Normally setting right will lead to a wrong delete operation.
+																	//I made a special function for this.
 
 		left = nullptr;												//Notice that the brother relationship is a loop in F-Heap.
 																	//So I simply set the left to nullptr and do delete operation on right.
@@ -66,45 +68,68 @@ void FibonacciHeapNode::setChild(FibonacciHeapNode* newChild)
 
 void FibonacciHeapNode::setLeft(FibonacciHeapNode* newLeft)
 {
-	if(parent != nullptr)
+	FibonacciHeapNode* oldLeft = left;
+
+	if(newLeft == nullptr)
 	{
-		HeapNode* ptr = nullptr;
+		if(parent != nullptr)parent->decreaseDegree();
 
-		ptr = left;
+		oldLeft->getLeft()->setRight(this);
 
-		while(ptr != nullptr)
-		{
-			parent->decreaseDegree();
+		this->left = oldLeft->left;
+	} 
+	else
+	{
+		newLeft->setParent(this->parent);
 
-			ptr->setParent(nullptr);
+		newLeft->setLeft(oldLeft->getLeft());
 
-			ptr = ptr->getBrother();
-		}
+		newLeft->setRight(this);
 
-		if(newBrother == nullptr)
-		{
-			ptr = brother;
-		}
-		else 
-		{
-			ptr = newBrother;
-		
-			while(ptr != nullptr)
-			{
-				parent->increaseDegree();
+		oldLeft->getLeft()->setRight(newLeft);
 
-				ptr->setParent(parent);
+		this->left = newLeft;
 
-				ptr = ptr->getBrother();
-			}
-		}
+		//FibonacciHeapNode* oldLeft = this->left;
+
 	}
 	
-	brother = newBrother;
+	//his->left = newLeft;
 }
 
 void FibonacciHeapNode::setRight(FibonacciHeapNode* newRight)
 {
+	/*
+	FibonacciHeapNode* oldRight = right;
+
+	if(newRight == nullptr)
+	{
+		if(parent != nullptr)parent->decreaseDegree();
+
+		oldRight->getRight()->setLeft(this);
+
+		this->right = oldRight->right;
+	} 
+	else
+	{
+		newRight->setParent(this->parent);
+
+		newRight->setRight(oldRight->getRight());
+
+		newRight->setLeft(this);
+
+		oldRight->getRight()->setLeft(newRight);
+
+		this->right = newRight;
+
+		//FibonacciHeapNode* oldRight = this->left;
+
+	}
+
+	oldRight->setLeft(oldRight);
+
+	oldRight->setRight(oldRight);
+	*/
 	this->right = newRight;
 }
 

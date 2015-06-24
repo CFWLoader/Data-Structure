@@ -8,49 +8,51 @@
 
 using namespace std;
 
+FibonacciHeap* sample1();
+FibonacciHeapNode* sample2();
+
 int main(int argc, char* argv[])
 {
-	FibonacciHeap theHeap;
 
-	theHeap.insert(3);
+	//FibonacciHeap* theHeap = sample1();
 
-	theHeap.getRoots()->setChild(new FibonacciHeapNode(22));
-
-	theHeap.insert(4);
-
-	theHeap.insert(5);
-
-	theHeap.insert(666);
-
-	theHeap.getRoots()->getRight()->setChild(new FibonacciHeapNode(43));
-
-	theHeap.getRoots()->getLeft()->setChild(new FibonacciHeapNode(57));
-
-	/*
-
-	FibonacciHeapNode* iter = theHeap.getRoots();
-
-	cout << "Right Loop: " << endl;
-
-	for(int counter = 0; counter < 10; ++counter, iter = iter->getRight())
-	{
-		cout << iter->getKey() << "    Left:  " << iter->getLeft()->getKey() << "   Right:  " << iter->getRight()->getKey() << endl;
-	}
-
-	cout << "Left Loop: " << endl;
-
-	for(int counter = 0; counter < 10; ++counter, iter = iter->getLeft())
-	{
-		cout << iter->getKey() << "    Left:  " << iter->getLeft()->getKey() << "   Right:  " << iter->getRight()->getKey() << endl;
-	}
-
-	*/
+	FibonacciHeapNode* root = sample2();
 	
 	GraphvizOutput gOut("./diagram/F-Heap.dot");
 
-	gOut.generateDirectionalGraph(theHeap.getRoots());
+	gOut.generateDirectionalGraph(root);
 
-	//cout << theHeap.getRoots()->getKey() << endl;
+	delete root;
 
 	return 0;
+}
+
+FibonacciHeap* sample1()
+{
+	FibonacciHeap* theHeap = new FibonacciHeap();
+
+	theHeap->insert(3);
+
+	theHeap->getRoots()->setChild(new FibonacciHeapNode(22));
+
+	theHeap->insert(4);
+
+	theHeap->insert(5);
+
+	theHeap->insert(666);
+
+	theHeap->getRoots()->getRight()->setChild(new FibonacciHeapNode(43));
+
+	theHeap->getRoots()->getLeft()->setChild(new FibonacciHeapNode(57));
+
+	return theHeap;
+}
+
+FibonacciHeapNode* sample2()
+{
+	FibonacciHeapNode* root = new FibonacciHeapNode(3);
+
+	root->setLeft(new FibonacciHeapNode(4));
+
+	return root;
 }
