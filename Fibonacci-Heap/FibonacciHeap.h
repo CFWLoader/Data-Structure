@@ -12,6 +12,8 @@ public:
 
 	bool insert(unsigned long);
 
+	bool insert(FibonacciHeapNode*);
+
 	inline FibonacciHeapNode* getRoots() const;
 
 private:

@@ -14,15 +14,17 @@ FibonacciHeapNode* sample2();
 int main(int argc, char* argv[])
 {
 
-	//FibonacciHeap* theHeap = sample1();
+	FibonacciHeap* theHeap = sample1();
 
-	FibonacciHeapNode* root = sample2();
+	//FibonacciHeapNode* root = sample2();
 	
 	GraphvizOutput gOut("./diagram/F-Heap.dot");
 
-	gOut.generateDirectionalGraph(root);
+	//gOut.generateDirectionalGraph(theHeap->getRoots());
 
-	delete root;
+	gOut.generateDebuggingGraph(theHeap->getRoots());
+
+	delete theHeap;
 
 	return 0;
 }
@@ -35,15 +37,31 @@ FibonacciHeap* sample1()
 
 	theHeap->getRoots()->setChild(new FibonacciHeapNode(22));
 
-	theHeap->insert(4);
+	theHeap->getRoots()->getChild()->setLeft(new FibonacciHeapNode(5674));
 
-	theHeap->insert(5);
+	FibonacciHeapNode* node = new FibonacciHeapNode(4);
 
-	theHeap->insert(666);
+	theHeap->insert(node);
+
+	node = new FibonacciHeapNode(5);
+
+	node->setChild(new FibonacciHeapNode(43));
+
+	theHeap->insert(node);
+
+	//node->getChild()->setRight(new FibonacciHeapNode(73362));
+
+	node = new FibonacciHeapNode(666);
+
+	theHeap->insert(node);
+
+	/*
 
 	theHeap->getRoots()->getRight()->setChild(new FibonacciHeapNode(43));
 
 	theHeap->getRoots()->getLeft()->setChild(new FibonacciHeapNode(57));
+
+	*/
 
 	return theHeap;
 }
@@ -53,6 +71,12 @@ FibonacciHeapNode* sample2()
 	FibonacciHeapNode* root = new FibonacciHeapNode(3);
 
 	root->setLeft(new FibonacciHeapNode(4));
+
+	/*
+	root = root->getLeft();
+
+	root->setRight(new FibonacciHeapNode(5));
+	*/
 
 	return root;
 }

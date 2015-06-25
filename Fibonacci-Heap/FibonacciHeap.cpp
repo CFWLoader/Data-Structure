@@ -20,6 +20,11 @@ bool FibonacciHeap::insert(unsigned long newKey)
 	return true;
 }
 
+bool FibonacciHeap::insert(FibonacciHeapNode* theNewNode)
+{
+	return this->updateRoots(theNewNode);
+}
+
 bool FibonacciHeap::updateRoots(FibonacciHeapNode* newNode)
 {
 	if(root == nullptr)
@@ -36,13 +41,28 @@ bool FibonacciHeap::updateRoots(FibonacciHeapNode* newNode)
 		iterator = iterator->getRight();
 	}
 
+	/*
+
 	newNode->setRight(iterator);
 
 	newNode->setLeft(iterator->getLeft());
 
 	newNode->getLeft()->setRight(newNode);
+	*/
 
-	iterator->setLeft(newNode);
+	if(newNode->getDegree() < iterator->getDegree())
+	{
+		iterator->setLeft(newNode);
+	}
+	else 
+	{
+		iterator->setRight(newNode);
+	}
+
+	if(iterator == root && newNode->getDegree() < iterator->getDegree())
+	{
+		root = newNode;
+	}
 
 	return true;
 }

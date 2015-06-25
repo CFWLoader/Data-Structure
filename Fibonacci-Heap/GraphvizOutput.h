@@ -22,9 +22,9 @@ public:
 
 	void generateEdges(FibonacciHeapNode*);
 
-	//void generateDebuggingGraph(FibonacciHeapNode*);
+	void generateDebuggingGraph(FibonacciHeapNode*);
 
-	//void generateDebuggingNodes(FibonacciHeapNode*);
+	void generateDebuggingNodes(FibonacciHeapNode*);
 
 	//void generateGraph();
 

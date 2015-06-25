@@ -4,10 +4,11 @@ Algorithms in F-Heap almost use do-while structure to fix the bidirectional link
 
 ## Reach Target
 -	Construction of Node data structure.
+-	Logic of Node operation works correctly.
 
 ## Fixed Problem
 -	GraphvizOutput class can't generate edges correctly.
 -	Memory leaking in FibonacciHeapNode class's detructor.
+-	Logic of setting brothers leads fatal error.
 
 ## Current Problem
--	Logic of setting brothers leads fatal error.

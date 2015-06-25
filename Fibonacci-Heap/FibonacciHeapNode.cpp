@@ -35,7 +35,7 @@ FibonacciHeapNode::~FibonacciHeapNode()
 		right = nullptr;
 	}
 
-	std::cout << "Correctly deleting node, key:  " << this->key << std::endl;
+	//std::cout << "Correctly deleting node, key:  " << this->key << std::endl;
 
 	//right = nullptr;
 }
@@ -66,29 +66,46 @@ void FibonacciHeapNode::setChild(FibonacciHeapNode* newChild)
 	this->child = newChild;
 }
 
-void FibonacciHeapNode::setLeft(FibonacciHeapNode* newLeft)
-{
+void FibonacciHeapNode::setLeft(FibonacciHeapNode* newLeft)			//Remove a left node if you pass a null value,parent node will decrease 1.
+{																	//Insert a left node if you pass a non-null value and parent node will increase 1.
+	//if(newLeft == this)return;
+
 	FibonacciHeapNode* oldLeft = left;
 
 	if(newLeft == nullptr)
 	{
-		if(parent != nullptr)parent->decreaseDegree();
+		//if(parent != nullptr)parent->decreaseDegree();
 
-		oldLeft->getLeft()->setRight(this);
+		oldLeft->left->right = this;
 
 		this->left = oldLeft->left;
+
+		if(parent != nullptr && parent->child == oldLeft)parent->setChild(this);
+
 	} 
 	else
 	{
-		newLeft->setParent(this->parent);
+		/*
 
-		newLeft->setLeft(oldLeft->getLeft());
+		newNode->setRight(iterator);
 
-		newLeft->setRight(this);
+		newNode->setLeft(iterator->getLeft());
 
-		oldLeft->getLeft()->setRight(newLeft);
+		newNode->getLeft()->setRight(newNode);
+		*/
+		newLeft->parent = this->parent;
+
+		newLeft->right = this;
+
+		newLeft->left = oldLeft;
+
+		oldLeft->right = newLeft;
+
+		//oldLeft->getLeft()->setRight(newLeft);
 
 		this->left = newLeft;
+
+		if(parent != nullptr)parent->increaseDegree();
 
 		//FibonacciHeapNode* oldLeft = this->left;
 
@@ -97,40 +114,36 @@ void FibonacciHeapNode::setLeft(FibonacciHeapNode* newLeft)
 	//his->left = newLeft;
 }
 
-void FibonacciHeapNode::setRight(FibonacciHeapNode* newRight)
+void FibonacciHeapNode::setRight(FibonacciHeapNode* newRight)			//Behavior is same as setLeft function.
 {
-	/*
 	FibonacciHeapNode* oldRight = right;
 
 	if(newRight == nullptr)
 	{
-		if(parent != nullptr)parent->decreaseDegree();
+		//if(parent != nullptr)parent->decreaseDegree();
 
-		oldRight->getRight()->setLeft(this);
+		oldRight->right->left = this;
 
 		this->right = oldRight->right;
+
+		if(parent != nullptr && parent->child == oldRight)parent->setChild(this);
 	} 
 	else
 	{
-		newRight->setParent(this->parent);
+		newRight->parent = this->parent;
 
-		newRight->setRight(oldRight->getRight());
+		newRight->left = this;
 
-		newRight->setLeft(this);
+		newRight->right = oldRight;
 
-		oldRight->getRight()->setLeft(newRight);
+		oldRight->left = newRight;
 
 		this->right = newRight;
 
+		if(parent != nullptr)parent->increaseDegree();
+
 		//FibonacciHeapNode* oldRight = this->left;
-
 	}
-
-	oldRight->setLeft(oldRight);
-
-	oldRight->setRight(oldRight);
-	*/
-	this->right = newRight;
 }
 
 void FibonacciHeapNode::detach()
