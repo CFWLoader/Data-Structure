@@ -66,3 +66,10 @@ bool FibonacciHeap::updateRoots(FibonacciHeapNode* newNode)
 
 	return true;
 }
+
+FibonacciHeap* FibonacciHeap::union(FibonacciHeap* unioningHeap)
+{
+	FibonacciHeap* newHeap = new FibonacciHeap();
+
+	
+}

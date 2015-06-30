@@ -14,6 +14,8 @@ public:
 
 	bool insert(FibonacciHeapNode*);
 
+	FibonacciHeap* union(FibonacciHeap*);
+
 	inline FibonacciHeapNode* getRoots() const;
 
 private:
