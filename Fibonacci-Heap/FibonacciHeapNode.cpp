@@ -114,6 +114,54 @@ void FibonacciHeapNode::setLeft(FibonacciHeapNode* newLeft)			//Remove a left no
 	//his->left = newLeft;
 }
 
+void FibonacciHeapNode::insertLeft(FibonacciHeapNode* newLeft)			//Remove a left node if you pass a null value,parent node will decrease 1.
+{																	//Insert a left node if you pass a non-null value and parent node will increase 1.
+	//if(newLeft == this)return;
+
+	FibonacciHeapNode* oldLeft = left;
+
+	if(newLeft == nullptr)
+	{
+		//if(parent != nullptr)parent->decreaseDegree();
+
+		oldLeft->left->right = this;
+
+		this->left = oldLeft->left;
+
+		if(parent != nullptr && parent->child == oldLeft)parent->setChild(this);
+
+	} 
+	else
+	{
+		/*
+
+		newNode->setRight(iterator);
+
+		newNode->setLeft(iterator->getLeft());
+
+		newNode->getLeft()->setRight(newNode);
+		*/
+		newLeft->parent = this->parent;
+
+		newLeft->right = this;
+
+		newLeft->left = oldLeft;
+
+		oldLeft->right = newLeft;
+
+		//oldLeft->getLeft()->setRight(newLeft);
+
+		this->left = newLeft;
+
+		if(parent != nullptr)parent->increaseDegree();
+
+		//FibonacciHeapNode* oldLeft = this->left;
+
+	}
+	
+	//his->left = newLeft;
+}
+
 void FibonacciHeapNode::setRight(FibonacciHeapNode* newRight)			//Behavior is same as setLeft function.
 {
 	FibonacciHeapNode* oldRight = right;

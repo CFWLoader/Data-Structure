@@ -14,9 +14,13 @@ public:
 
 	bool insert(FibonacciHeapNode*);
 
-	FibonacciHeap* union(FibonacciHeap*);
+	bool unionHeap(FibonacciHeap*);
+
+	unsigned long phi();
 
 	inline FibonacciHeapNode* getRoots() const;
+
+	inline void detach();
 
 private:
 	bool updateRoots(FibonacciHeapNode*);
@@ -27,6 +31,11 @@ private:
 inline FibonacciHeapNode* FibonacciHeap::getRoots() const
 {
 	return root;
+}
+
+inline void FibonacciHeap::detach()
+{
+	root = nullptr;
 }
 
 #endif

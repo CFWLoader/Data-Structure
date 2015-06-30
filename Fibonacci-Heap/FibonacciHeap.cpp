@@ -2,6 +2,8 @@
 
 #include "FibonacciHeap.h"
 
+#include <vector>
+
 FibonacciHeap::FibonacciHeap() : root(nullptr)
 {
 }
@@ -67,9 +69,14 @@ bool FibonacciHeap::updateRoots(FibonacciHeapNode* newNode)
 	return true;
 }
 
-FibonacciHeap* FibonacciHeap::union(FibonacciHeap* unioningHeap)
+bool FibonacciHeap::unionHeap(FibonacciHeap* unioningHeap)
 {
-	FibonacciHeap* newHeap = new FibonacciHeap();
+	root->getLeft()->setRight(unioningHeap->root);
 
-	
+	return true;
+}
+
+unsigned long FibonacciHeap::phi()
+{
+	return 0;
 }

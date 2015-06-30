@@ -21,9 +21,13 @@ public:
 
 	void setLeft(FibonacciHeapNode*);
 
+	void insertLeft(FibonacciHeapNode*);
+
 	inline FibonacciHeapNode* getRight() const;
 
 	void setRight(FibonacciHeapNode*);
+
+	void insertRight(FibonacciHeapNode*);
 
 	inline unsigned long getKey() const;
 
