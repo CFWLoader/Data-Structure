@@ -71,7 +71,7 @@ bool FibonacciHeap::updateRoots(FibonacciHeapNode* newNode)
 
 bool FibonacciHeap::unionHeap(FibonacciHeap* unioningHeap)
 {
-	root->getLeft()->setRight(unioningHeap->root);
+	root->getLeft()->concatenateRight(unioningHeap->root);
 
 	return true;
 }

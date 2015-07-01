@@ -114,15 +114,13 @@ void FibonacciHeapNode::setLeft(FibonacciHeapNode* newLeft)			//Remove a left no
 	//his->left = newLeft;
 }
 
-void FibonacciHeapNode::insertLeft(FibonacciHeapNode* newLeft)			//Remove a left node if you pass a null value,parent node will decrease 1.
-{																	//Insert a left node if you pass a non-null value and parent node will increase 1.
-	//if(newLeft == this)return;
-
-	FibonacciHeapNode* oldLeft = left;
+void FibonacciHeapNode::concatenateLeft(FibonacciHeapNode* newLeft)		//Remove a left node if you pass a null value,parent node will decrease 1.
+{																		//Link the two bidirectional list.
+																		//This function solved the problem of adding a segment of nodes.
+	FibonacciHeapNode* oldLeft = left, *newLeftRight = newLeft->right;	
 
 	if(newLeft == nullptr)
 	{
-		//if(parent != nullptr)parent->decreaseDegree();
 
 		oldLeft->left->right = this;
 
@@ -133,33 +131,28 @@ void FibonacciHeapNode::insertLeft(FibonacciHeapNode* newLeft)			//Remove a left
 	} 
 	else
 	{
-		/*
-
-		newNode->setRight(iterator);
-
-		newNode->setLeft(iterator->getLeft());
-
-		newNode->getLeft()->setRight(newNode);
-		*/
 		newLeft->parent = this->parent;
 
 		newLeft->right = this;
 
-		newLeft->left = oldLeft;
+		oldLeft->right = newLeftRight;
 
-		oldLeft->right = newLeft;
-
-		//oldLeft->getLeft()->setRight(newLeft);
+		newLeftRight->left = oldLeft;
 
 		this->left = newLeft;
 
-		if(parent != nullptr)parent->increaseDegree();
+		if(parent != nullptr)
+		{
+			FibonacciHeapNode* iterator = newLeft;
 
-		//FibonacciHeapNode* oldLeft = this->left;
+			do
+			{
+				parent->increaseDegree();
 
+				iterator = iterator->right;
+			}while(iterator != newLeft);
+		}
 	}
-	
-	//his->left = newLeft;
 }
 
 void FibonacciHeapNode::setRight(FibonacciHeapNode* newRight)			//Behavior is same as setLeft function.
@@ -168,7 +161,6 @@ void FibonacciHeapNode::setRight(FibonacciHeapNode* newRight)			//Behavior is sa
 
 	if(newRight == nullptr)
 	{
-		//if(parent != nullptr)parent->decreaseDegree();
 
 		oldRight->right->left = this;
 
@@ -189,8 +181,47 @@ void FibonacciHeapNode::setRight(FibonacciHeapNode* newRight)			//Behavior is sa
 		this->right = newRight;
 
 		if(parent != nullptr)parent->increaseDegree();
+	}
+}
 
-		//FibonacciHeapNode* oldRight = this->left;
+void FibonacciHeapNode::concatenateRight(FibonacciHeapNode* newRight)			//Behavior is same as concatenateLeft function.
+{
+	FibonacciHeapNode* oldRight = right, *newRightLeft = newRight->left;
+
+	if(newRight == nullptr)
+	{
+
+		oldRight->right->left = this;
+
+		this->right = oldRight->right;
+
+		if(parent != nullptr && parent->child == oldRight)parent->setChild(this);
+	} 
+	else
+	{
+		newRight->parent = this->parent;
+
+		newRight->left = this;
+
+		//newRight->right = oldRight;
+
+		oldRight->left = newRightLeft;
+
+		newRightLeft->right = oldRight;
+
+		this->right = newRight;
+
+		if(parent != nullptr)
+		{
+			FibonacciHeapNode* iterator = newRight;
+
+			do
+			{
+				parent->increaseDegree();
+
+				iterator = iterator->right;
+			}while(iterator != newRight);
+		}
 	}
 }
 
