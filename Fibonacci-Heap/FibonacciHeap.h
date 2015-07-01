@@ -1,6 +1,8 @@
 #ifndef FIBONACCIHEAP_H_
 #define FIBONACCIHEAP_H_
 
+#include <cstdio>
+
 class FibonacciHeapNode;
 
 class FibonacciHeap
@@ -17,6 +19,10 @@ public:
 	bool unionHeap(FibonacciHeap*);
 
 	unsigned long extractMin();
+
+	bool consolidate();
+
+	size_t getMaxDegreeOfSingleNodeInTheHeap() const;
 
 	unsigned long phi();
 

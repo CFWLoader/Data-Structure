@@ -2,7 +2,7 @@
 
 #include "FibonacciHeap.h"
 
-#include <vector>
+#include <deque>
 
 FibonacciHeap::FibonacciHeap() : root(nullptr)
 {
@@ -105,7 +105,16 @@ unsigned long FibonacciHeap::extractMin()
 
 	if(target == root)																	//Before deleting the node, check if the root is the target.
 	{																					//Checking whether the root is the last node.
-		root = (root == root->getRight()) ? nullptr : root->getRight();
+		if(root == root->getRight())
+		{
+			root = nullptr;
+		} 
+		else
+		{  
+			root = root->getRight();
+
+			this->consolidate();														//Adjust the heap because the root changed.
+		}
 	}
 
 	target->getLeft()->setRight(nullptr);
@@ -117,6 +126,43 @@ unsigned long FibonacciHeap::extractMin()
 	return targetValue;
 
 }
+
+bool FibonacciHeap::consolidate()
+{
+	return true;
+}
+
+size_t FibonacciHeap::getMaxDegreeOfSingleNodeInTheHeap() const
+{
+	if(root == nullptr)return 0;
+
+	size_t maxDegree = root->getDegree();
+
+	std::deque<FibonacciHeapNode*> searchQueue;
+
+	searchQueue.push_back(root);
+
+	FibonacciHeapNode* iterator, *loopEnd;
+
+	while(!searchQueue.empty())
+	{
+		iterator = searchQueue.front();
+
+		searchQueue.pop_front();
+
+		loopEnd = iterator;
+
+		do
+		{
+			if(maxDegree < iterator->getDegree())maxDegree = iterator->getDegree();
+
+			iterator = iterator->getRight();
+		}while(iterator != loopEnd);
+	}
+
+	return maxDegree;
+}
+
 
 unsigned long FibonacciHeap::phi()
 {

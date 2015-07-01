@@ -39,13 +39,7 @@ int main(int argc, char* argv[])
 
 	gOut2.generateDirectionalGraph(theHeap->getRoots());
 
-	theHeap->extractMin();
-
-	theHeap->extractMin();
-
-	GraphvizOutput gOut3("./diagram/F-Heap3-pop1.dot");
-
-	gOut3.generateDirectionalGraph(theHeap->getRoots());
+	cout << theHeap->getMaxDegreeOfSingleNodeInTheHeap() << endl;
 
 	delete theHeap;
 
@@ -63,6 +57,8 @@ FibonacciHeap* sample1()
 	theHeap->getRoots()->setChild(new FibonacciHeapNode(22));
 
 	theHeap->getRoots()->getChild()->setLeft(new FibonacciHeapNode(5674));
+
+	theHeap->getRoots()->getChild()->setRight(new FibonacciHeapNode(574));
 
 	FibonacciHeapNode* node = new FibonacciHeapNode(4);
 
