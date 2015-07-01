@@ -1,6 +1,8 @@
 #ifndef FIBONACCIHEAPNODE
 #define FIBONACCIHEAPNODE
 
+extern unsigned long UL_INFINITY;
+
 class FibonacciHeapNode
 {
 public:
@@ -11,7 +13,7 @@ public:
 
 	inline FibonacciHeapNode* getParent() const;
 
-	inline void setParent(FibonacciHeapNode*);
+	void setParent(FibonacciHeapNode*);
 
 	inline FibonacciHeapNode* getChild() const;
 
@@ -66,11 +68,6 @@ private:
 inline FibonacciHeapNode* FibonacciHeapNode::getParent() const
 {
 	return parent;
-}
-
-inline void FibonacciHeapNode::setParent(FibonacciHeapNode* newParent)
-{
-	this->parent = newParent;
 }
 
 inline FibonacciHeapNode* FibonacciHeapNode::getChild() const

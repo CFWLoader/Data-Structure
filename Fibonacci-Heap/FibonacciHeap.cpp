@@ -76,6 +76,48 @@ bool FibonacciHeap::unionHeap(FibonacciHeap* unioningHeap)
 	return true;
 }
 
+unsigned long FibonacciHeap::extractMin()
+{
+	if(root == nullptr)return UL_INFINITY;
+
+	FibonacciHeapNode* iterator = root, *target = root;									//Find the minimum value.
+
+	do
+	{
+		if(iterator->getKey() < target->getKey())
+		{
+			target = iterator;
+		}
+
+		iterator = iterator->getRight();
+	}while(iterator != root);
+
+	unsigned long targetValue = target->getKey();
+
+	if (target->getChild() != nullptr)													//If target node has child, add them to root list.
+	{
+		root->getLeft()->concatenateRight(target->getChild());
+
+		target->getChild()->setParent(nullptr);
+
+		target->setChild(nullptr);
+	}
+
+	if(target == root)																	//Before deleting the node, check if the root is the target.
+	{																					//Checking whether the root is the last node.
+		root = (root == root->getRight()) ? nullptr : root->getRight();
+	}
+
+	target->getLeft()->setRight(nullptr);
+
+	target->detach();
+
+	delete target;
+
+	return targetValue;
+
+}
+
 unsigned long FibonacciHeap::phi()
 {
 	return 0;

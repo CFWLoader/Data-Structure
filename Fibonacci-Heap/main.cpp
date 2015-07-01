@@ -39,6 +39,14 @@ int main(int argc, char* argv[])
 
 	gOut2.generateDirectionalGraph(theHeap->getRoots());
 
+	theHeap->extractMin();
+
+	theHeap->extractMin();
+
+	GraphvizOutput gOut3("./diagram/F-Heap3-pop1.dot");
+
+	gOut3.generateDirectionalGraph(theHeap->getRoots());
+
 	delete theHeap;
 
 	delete uHeap;

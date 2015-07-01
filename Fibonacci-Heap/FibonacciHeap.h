@@ -16,6 +16,8 @@ public:
 
 	bool unionHeap(FibonacciHeap*);
 
+	unsigned long extractMin();
+
 	unsigned long phi();
 
 	inline FibonacciHeapNode* getRoots() const;

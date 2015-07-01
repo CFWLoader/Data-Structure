@@ -1,6 +1,9 @@
 #include "FibonacciHeapNode.h"
 
 #include <iostream>
+#include <limits>
+
+unsigned long UL_INFINITY = std::numeric_limits<unsigned long>::max();
 
 FibonacciHeapNode::FibonacciHeapNode(unsigned long theKey) :
 	parent(nullptr), child(nullptr), left(this), right(this), 
@@ -38,6 +41,25 @@ FibonacciHeapNode::~FibonacciHeapNode()
 	//std::cout << "Correctly deleting node, key:  " << this->key << std::endl;
 
 	//right = nullptr;
+}
+
+void FibonacciHeapNode::setParent(FibonacciHeapNode* newParent)
+{
+	if(newParent == nullptr)
+	{
+		FibonacciHeapNode* ptr = this->right;	
+
+		while(ptr != this)
+		{
+			ptr->parent = nullptr;
+
+			ptr = ptr->right;
+
+			//std::cout << "Looping here: key:  " << this->key << std::endl;
+		}
+	}
+
+	this->parent = newParent;
 }
 
 
