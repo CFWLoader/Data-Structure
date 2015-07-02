@@ -21,11 +21,15 @@ int main(int argc, char* argv[])
 	
 	GraphvizOutput gOut("./diagram/F-Heap1.dot");
 
+	cout << theHeap->getNumberOfNodes() << endl;
+
 	//gOut.generateDirectionalGraph(theHeap->getRoots());
 
 	gOut.generateDirectionalGraph(theHeap->getRoots());
 
 	FibonacciHeap* uHeap = sample3();
+
+	cout << uHeap->getNumberOfNodes() << endl;
 
 	GraphvizOutput gOut1("./diagram/F-Heap2.dot");
 
@@ -39,7 +43,7 @@ int main(int argc, char* argv[])
 
 	gOut2.generateDirectionalGraph(theHeap->getRoots());
 
-	cout << theHeap->getMaxDegreeOfSingleNodeInTheHeap() << endl;
+	cout << theHeap->getNumberOfNodes() << endl;
 
 	delete theHeap;
 
@@ -56,9 +60,15 @@ FibonacciHeap* sample1()
 
 	theHeap->getRoots()->setChild(new FibonacciHeapNode(22));
 
+	theHeap->increaseNumber();
+
 	theHeap->getRoots()->getChild()->setLeft(new FibonacciHeapNode(5674));
 
+	theHeap->increaseNumber();
+
 	theHeap->getRoots()->getChild()->setRight(new FibonacciHeapNode(574));
+
+	theHeap->increaseNumber();
 
 	FibonacciHeapNode* node = new FibonacciHeapNode(4);
 
@@ -69,6 +79,8 @@ FibonacciHeap* sample1()
 	node->setChild(new FibonacciHeapNode(43));
 
 	theHeap->insert(node);
+
+	theHeap->increaseNumber();
 
 	//node->getChild()->setRight(new FibonacciHeapNode(73362));
 
@@ -110,7 +122,11 @@ FibonacciHeap* sample3()
 
 	theHeap->getRoots()->setChild(new FibonacciHeapNode(122));
 
+	theHeap->increaseNumber();
+
 	theHeap->getRoots()->getChild()->setLeft(new FibonacciHeapNode(15674));
+
+	theHeap->increaseNumber();
 
 	FibonacciHeapNode* node = new FibonacciHeapNode(14);
 
@@ -121,6 +137,8 @@ FibonacciHeap* sample3()
 	node->setChild(new FibonacciHeapNode(143));
 
 	theHeap->insert(node);
+
+	theHeap->increaseNumber();
 
 	//node->getChild()->setRight(new FibonacciHeapNode(73362));
 

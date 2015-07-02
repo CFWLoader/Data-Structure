@@ -4,7 +4,7 @@
 
 #include <deque>
 
-FibonacciHeap::FibonacciHeap() : root(nullptr)
+FibonacciHeap::FibonacciHeap() : root(nullptr), numberOfNodes(0)
 {
 }
 
@@ -19,11 +19,15 @@ bool FibonacciHeap::insert(unsigned long newKey)
 
 	this->updateRoots(newNode);
 
+	++numberOfNodes;
+
 	return true;
 }
 
 bool FibonacciHeap::insert(FibonacciHeapNode* theNewNode)
 {
+	++numberOfNodes;
+
 	return this->updateRoots(theNewNode);
 }
 
@@ -72,6 +76,8 @@ bool FibonacciHeap::updateRoots(FibonacciHeapNode* newNode)
 bool FibonacciHeap::unionHeap(FibonacciHeap* unioningHeap)
 {
 	root->getLeft()->concatenateRight(unioningHeap->root);
+
+	this->numberOfNodes += unioningHeap->numberOfNodes;
 
 	return true;
 }
@@ -122,6 +128,8 @@ unsigned long FibonacciHeap::extractMin()
 	target->detach();
 
 	delete target;
+
+	--numberOfNodes;
 
 	return targetValue;
 

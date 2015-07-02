@@ -26,6 +26,10 @@ public:
 
 	unsigned long phi();
 
+	inline unsigned long getNumberOfNodes();
+
+	inline void increaseNumber();
+
 	inline FibonacciHeapNode* getRoots() const;
 
 	inline void detach();
@@ -34,6 +38,8 @@ private:
 	bool updateRoots(FibonacciHeapNode*);
 
 	FibonacciHeapNode* root;
+
+	unsigned long numberOfNodes;
 };
 
 inline FibonacciHeapNode* FibonacciHeap::getRoots() const
@@ -45,5 +51,16 @@ inline void FibonacciHeap::detach()
 {
 	root = nullptr;
 }
+
+inline unsigned long FibonacciHeap::getNumberOfNodes()
+{
+	return numberOfNodes;
+}
+
+inline void FibonacciHeap::increaseNumber()
+{
+	++numberOfNodes;
+}
+
 
 #endif
