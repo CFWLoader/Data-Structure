@@ -1,10 +1,14 @@
 #include <iostream>
 
+#include <string>
+
 #include "FibonacciHeapNode.h"
 
 #include "FibonacciHeap.h"
 
 #include "GraphvizOutput.h"
+
+#include "Auxiliary.h"
 
 using namespace std;
 
@@ -43,7 +47,32 @@ int main(int argc, char* argv[])
 
 	gOut2.generateDirectionalGraph(theHeap->getRoots());
 
-	cout << theHeap->getNumberOfNodes() << endl;
+	unsigned long min;
+
+	size_t counter = 1;
+
+	string baseName = "./diagram/FHeapStatus";
+
+	char statusCount[20];
+
+	while((min = theHeap->extractMin()) < UL_INFINITY)
+	{
+		string statusName = baseName;
+
+		_itoa_s(counter, statusCount, 10);
+
+		statusName.append(statusCount);
+
+		statusName.append(".dot");
+
+		GraphvizOutput status(statusName);
+
+		cout << "Get minimum:  " << min << "   Heap size:  " << theHeap->getNumberOfNodes() << endl;
+
+		status.generateDirectionalGraph(theHeap->getRoots());
+
+		++counter;
+	}
 
 	delete theHeap;
 

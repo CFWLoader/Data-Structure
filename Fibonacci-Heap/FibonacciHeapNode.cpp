@@ -247,6 +247,19 @@ void FibonacciHeapNode::concatenateRight(FibonacciHeapNode* newRight)			//Behavi
 	}
 }
 
+void FibonacciHeapNode::isolate()
+{
+	if (parent != nullptr)
+	{
+		parent->decreaseDegree();
+
+		parent = nullptr;
+	}
+
+	left = right = this;
+
+}
+
 void FibonacciHeapNode::detach()
 {
 	parent = nullptr;

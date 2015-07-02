@@ -13,3 +13,4 @@ Algorithms in F-Heap almost use do-while structure to fix the bidirectional link
 -	Setter function can't demand the logic of concatenating two node lists.
 
 ## Current Problem
+-	Having to add a function of FibonacciHeapNode to fix the link function of FibonacciHeap.

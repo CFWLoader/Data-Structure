@@ -4,6 +4,14 @@
 
 #include <deque>
 
+//#include <iostream>
+
+#include <cmath>
+
+#include <vector>
+
+#include <utility>
+
 FibonacciHeap::FibonacciHeap() : root(nullptr), numberOfNodes(0)
 {
 }
@@ -135,9 +143,88 @@ unsigned long FibonacciHeap::extractMin()
 
 }
 
+//The upper bound used a thoerem: Single node's degree will never be greater than the number of nodes in the heap.
 bool FibonacciHeap::consolidate()
 {
+	double tempResult_ = ::log(static_cast<double>(numberOfNodes)) / ::log(2.0);
+
+	unsigned long upperBound = static_cast<unsigned long>(tempResult_) + ((tempResult_ >  static_cast<unsigned long>(tempResult_)) ? 1 : 0); 
+
+	//std::cout << "The upper Bound is " << upperBound << std::endl;
+
+	std::vector<FibonacciHeapNode*> assistance(upperBound, nullptr);
+
+	std::deque<FibonacciHeapNode*> rootContainer;
+
+	//Completion of initializing the assist array.
+
+	FibonacciHeapNode* rootIterator = root, *current = nullptr, *adjusting = nullptr;
+
+	do 		 																				//Start adjusting the heap.
+	{
+		rootContainer.push_back(rootIterator);												//The root may be changed to a child node.
+																							//So we should use a containter.
+		rootIterator = rootIterator->getRight();											//To prevent the root being changed to be a child.
+
+	}while(rootIterator->getRight() != root);
+
+	unsigned long currentDegree;
+
+	while(!rootContainer.empty())
+	{
+		current = rootContainer.front();
+
+		rootContainer.pop_front();
+
+		currentDegree = current->getDegree();
+
+		while(assistance[currentDegree] != nullptr)
+		{
+			adjusting = assistance[currentDegree];
+
+			if(current->getKey() > adjusting->getKey())
+			{
+				std::swap(current, adjusting);
+			}
+
+			root = this->link(adjusting, current);
+
+			assistance[currentDegree] = nullptr;
+
+			++currentDegree;
+		}
+
+		assistance[currentDegree] = current;
+
+	}
+
+	for(unsigned long index = 0; index < upperBound; ++index)									//Checking the left.
+	{
+		if(assistance[index] != nullptr)
+		{
+			root->getLeft()->concatenateRight(assistance[index]);
+		}
+	}
+
 	return true;
+}
+
+FibonacciHeapNode* FibonacciHeap::link(FibonacciHeapNode* toBeChild, FibonacciHeapNode* toBeParent)
+{
+	toBeChild->getLeft()->setRight(nullptr);
+
+	toBeChild->isolate();
+
+	if(toBeParent->getChild() == nullptr)
+	{
+		toBeParent->setChild(toBeChild);
+	}
+	else
+	{
+		toBeParent->getChild()->setRight(toBeChild);
+	}
+
+	return toBeParent;
 }
 
 size_t FibonacciHeap::getMaxDegreeOfSingleNodeInTheHeap() const
