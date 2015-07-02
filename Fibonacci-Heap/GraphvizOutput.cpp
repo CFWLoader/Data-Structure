@@ -37,6 +37,8 @@ void GraphvizOutput::generateDirectionalGraph(FibonacciHeapNode* root)
 
 	targetFilename.append("jpg");
 
+	//std::cout << "Command generating, filename: " << targetFilename << std::endl;
+
 	char command[256];
 
 	snprintf(command, 256, "dot -Tjpg -o %s %s", targetFilename.c_str(), filename.c_str());
@@ -262,4 +264,16 @@ void GraphvizOutput::generateDebuggingNodes(FibonacciHeapNode* root)
 		
 		output << "\"];" << std::endl;
 	}
+}
+
+
+void GraphvizOutput::resetFile(const std::string& newFilename)
+{
+	filename = newFilename;
+
+	output.close();
+
+	output.open(newFilename, std::ios_base::trunc);
+
+	assert((output.is_open() == true));
 }

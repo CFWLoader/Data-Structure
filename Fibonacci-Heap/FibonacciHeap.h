@@ -22,7 +22,7 @@ public:
 
 	bool consolidate();
 
-	FibonacciHeapNode* link(FibonacciHeapNode*, FibonacciHeapNode*);
+	bool link(FibonacciHeapNode*, FibonacciHeapNode*);
 
 	size_t getMaxDegreeOfSingleNodeInTheHeap() const;
 

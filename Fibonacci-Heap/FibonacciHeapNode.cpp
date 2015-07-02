@@ -102,6 +102,8 @@ void FibonacciHeapNode::setLeft(FibonacciHeapNode* newLeft)			//Remove a left no
 
 		this->left = oldLeft->left;
 
+		oldLeft->left = oldLeft->right = oldLeft;
+
 		if(parent != nullptr && parent->child == oldLeft)parent->setChild(this);
 
 	} 
@@ -188,6 +190,8 @@ void FibonacciHeapNode::setRight(FibonacciHeapNode* newRight)			//Behavior is sa
 
 		this->right = oldRight->right;
 
+		oldRight->left = oldRight->right = oldRight;
+
 		if(parent != nullptr && parent->child == oldRight)parent->setChild(this);
 	} 
 	else
@@ -247,6 +251,7 @@ void FibonacciHeapNode::concatenateRight(FibonacciHeapNode* newRight)			//Behavi
 	}
 }
 
+/*
 void FibonacciHeapNode::isolate()
 {
 	if (parent != nullptr)
@@ -259,6 +264,7 @@ void FibonacciHeapNode::isolate()
 	left = right = this;
 
 }
+*/
 
 void FibonacciHeapNode::detach()
 {

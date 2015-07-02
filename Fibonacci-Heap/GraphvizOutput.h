@@ -26,6 +26,8 @@ public:
 
 	void generateDebuggingNodes(FibonacciHeapNode*);
 
+	void resetFile(const std::string&);
+
 	//void generateGraph();
 
 private:

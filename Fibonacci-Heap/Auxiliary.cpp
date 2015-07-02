@@ -11,7 +11,7 @@ void _itoa_s(int num, char *str, int radix) {
 
     unsigned int a; //every digit
 
-    int len;
+    //int len;
 
     char *b; //start of the digit char
 
@@ -43,7 +43,7 @@ void _itoa_s(int num, char *str, int radix) {
 
     } while (u > 0);
 
-    len = (int) (p - str);
+    //len = (int) (p - str);
 
     *p-- = 0;
 

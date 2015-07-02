@@ -47,7 +47,7 @@ public:
 
 	inline void setMarkFlag(bool);
 
-	void isolate();
+	//void isolate();
 
 	void detach();
 

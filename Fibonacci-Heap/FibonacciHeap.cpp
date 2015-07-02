@@ -4,13 +4,27 @@
 
 #include <deque>
 
-//#include <iostream>
+#include <iostream>
 
 #include <cmath>
 
 #include <vector>
 
-#include <utility>
+//#include <utility>
+
+//#define DEBUG_FUN_LINK
+
+#ifdef DEBUG_FUN_LINK
+
+#include "Auxiliary.h"
+
+#include "GraphvizOutput.h"
+
+#include <string>
+
+unsigned long linkFunCounter = 0;
+
+#endif
 
 FibonacciHeap::FibonacciHeap() : root(nullptr), numberOfNodes(0)
 {
@@ -158,23 +172,35 @@ bool FibonacciHeap::consolidate()
 
 	//Completion of initializing the assist array.
 
-	FibonacciHeapNode* rootIterator = root, *current = nullptr, *adjusting = nullptr;
+	FibonacciHeapNode* current = nullptr, *adjusting = nullptr;
 
-	do 		 																				//Start adjusting the heap.
+	FibonacciHeapNode* rootIter = root;
+
+	do 		 																			//Start adjusting the heap.
 	{
-		rootContainer.push_back(rootIterator);												//The root may be changed to a child node.
-																							//So we should use a containter.
-		rootIterator = rootIterator->getRight();											//To prevent the root being changed to be a child.
+		rootContainer.push_back(rootIter);												//The root may be changed to a child node.
+																						//So we should use a containter.
+		rootIter = rootIter->getRight();												//To prevent the root being changed to be a child.
 
-	}while(rootIterator->getRight() != root);
+	}while(rootIter->getRight() != root);
 
 	unsigned long currentDegree;
 
-	while(!rootContainer.empty())
-	{
-		current = rootContainer.front();
+	std::deque<FibonacciHeapNode*>::iterator rootIterator, end;
 
-		rootContainer.pop_front();
+	FibonacciHeapNode* tempChild_;
+
+	unsigned long tempKey_;
+
+	for(rootIterator = rootContainer.begin(), end = rootContainer.end();
+		rootIterator != end;
+		++rootIterator)
+	{
+		current = *rootIterator;
+
+		if(current->getParent() != nullptr)continue;
+
+		//rootContainer.pop_front();
 
 		currentDegree = current->getDegree();
 
@@ -184,10 +210,22 @@ bool FibonacciHeap::consolidate()
 
 			if(current->getKey() > adjusting->getKey())
 			{
-				std::swap(current, adjusting);
+
+				tempChild_ = current->getChild();
+
+				current->setChild(adjusting->getChild());
+
+				adjusting->setChild(tempChild_);
+
+				tempKey_ = current->getKey();
+
+				current->setKey(adjusting->getKey());
+
+				adjusting->setKey(tempKey_);
+				//std::swap(current, adjusting);
 			}
 
-			root = this->link(adjusting, current);
+			this->link(adjusting, current);
 
 			assistance[currentDegree] = nullptr;
 
@@ -206,14 +244,58 @@ bool FibonacciHeap::consolidate()
 		}
 	}
 
+	std::deque<FibonacciHeapNode*>::iterator targetRoot;	
+
+	for(targetRoot = rootIterator = rootContainer.begin(), end = rootContainer.end();
+		rootIterator != end;
+		++rootIterator)
+	{
+		if((*rootIterator)->getParent() == nullptr)
+		{
+			if((*targetRoot)->getParent() != nullptr || (*targetRoot)->getKey() > (*rootIterator)->getKey())
+			{
+				targetRoot = rootIterator;
+			}
+		}
+	}
+
+	root = *targetRoot;
+
 	return true;
 }
 
-FibonacciHeapNode* FibonacciHeap::link(FibonacciHeapNode* toBeChild, FibonacciHeapNode* toBeParent)
+bool FibonacciHeap::link(FibonacciHeapNode* toBeChild, FibonacciHeapNode* toBeParent)
 {
-	toBeChild->getLeft()->setRight(nullptr);
+#ifdef DEBUG_FUN_LINK
 
-	toBeChild->isolate();
+	++linkFunCounter;
+
+	std::string linkStatusCounter = "./diagram/F-Heap-Link-status";
+
+	char statusCounter[20];
+
+	_itoa_s(linkFunCounter, statusCounter, 10);
+
+	linkStatusCounter.append(statusCounter);
+
+	GraphvizOutput debugOutput(linkStatusCounter + "a.dot");
+
+	debugOutput.generateDebuggingGraph(toBeParent);
+
+	std::cout << "P-Key: " << toBeParent->getKey() << "   C-Key: " << toBeChild->getKey() << std::endl;
+
+#endif
+
+	toBeChild->getLeft()->setRight(nullptr);
+	//toBeChild->isolate();
+
+#ifdef DEBUG_FUN_LINK
+
+	debugOutput.resetFile(linkStatusCounter + "b.dot");
+
+	debugOutput.generateDebuggingGraph(toBeParent);
+
+#endif
 
 	if(toBeParent->getChild() == nullptr)
 	{
@@ -221,10 +303,20 @@ FibonacciHeapNode* FibonacciHeap::link(FibonacciHeapNode* toBeChild, FibonacciHe
 	}
 	else
 	{
-		toBeParent->getChild()->setRight(toBeChild);
+		toBeParent->getChild()->concatenateRight(toBeChild);
 	}
 
-	return toBeParent;
+	toBeChild->setMarkFlag(false);
+
+#ifdef DEBUG_FUN_LINK
+
+	debugOutput.resetFile(linkStatusCounter + "c.dot");
+
+	debugOutput.generateDebuggingGraph(toBeParent);
+
+#endif
+
+	return  true;
 }
 
 size_t FibonacciHeap::getMaxDegreeOfSingleNodeInTheHeap() const
