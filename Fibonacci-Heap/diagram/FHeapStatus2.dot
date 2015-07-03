@@ -1,0 +1,78 @@
+digraph theGraph{
+	node5[ label = "K:5\nG:4\nM:0"];
+	node43[ label = "K:43\nG:0\nM:0"];
+	node13[ label = "K:13\nG:1\nM:0"];
+	node14[ label = "K:14\nG:6\nM:0"];
+	node122[ label = "K:122\nG:0\nM:0"];
+	node666[ label = "K:666\nG:0\nM:0"];
+	node15674[ label = "K:15674\nG:0\nM:0"];
+	node574[ label = "K:574\nG:1\nM:0"];
+	node666[ label = "K:666\nG:0\nM:0"];
+	node5674[ label = "K:5674\nG:0\nM:0"];
+	node5->node43
+	node43->node5
+	node5->node13
+	node13->node5
+	node5->node14
+	node14->node13
+	node13->node122
+	node122->node13
+	node13->node15674
+	node15674->node5
+	node14->node666
+	node666->node14
+	node14->node574
+	node574->node14
+	node13->node122
+	node122->node13
+	node13->node15674
+	node15674->node5
+	node14->node666
+	node666->node14
+	node14->node574
+	node574->node14
+	node14->node666
+	node666->node14
+	node14->node574
+	node574->node14
+	node13->node122
+	node122->node13
+	node13->node15674
+	node15674->node5
+	node14->node666
+	node666->node14
+	node14->node574
+	node574->node14
+	node574->node5674
+	node5674->node574
+	node574->node5674
+	node5674->node574
+	node574->node5674
+	node5674->node574
+	node574->node5674
+	node5674->node574
+	node574->node5674
+	node5674->node574
+	node574->node5674
+	node5674->node574
+	node574->node5674
+	node5674->node574
+	node574->node5674
+	node5674->node574
+	node574->node5674
+	node5674->node574
+	node574->node5674
+	node5674->node574
+	node574->node5674
+	node5674->node574
+	node574->node5674
+	node5674->node574
+	node574->node5674
+	node5674->node574
+	node574->node5674
+	node5674->node574
+	node574->node5674
+	node5674->node574
+	node574->node5674
+	node5674->node574
+}

@@ -1,0 +1,3 @@
+digraph theGraph{
+	node666[ label = "K:666  G:0\nM:0\n--------------\nP:14\nL:666  R:666\nC:NULL"];
+}
