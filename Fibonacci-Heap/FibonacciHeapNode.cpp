@@ -82,7 +82,7 @@ void FibonacciHeapNode::setChild(FibonacciHeapNode* newChild)
 			this->increaseDegree();
 
 			iterator = iterator->getRight();
-		}while(iterator->getRight() != loopEnd);
+		}while(iterator != loopEnd);
 	}
 
 	this->child = newChild;
@@ -167,6 +167,8 @@ void FibonacciHeapNode::concatenateLeft(FibonacciHeapNode* newLeft)		//Remove a 
 
 		if(parent != nullptr)
 		{
+			parent->setDegree(0);
+
 			FibonacciHeapNode* iterator = newLeft;
 
 			do
@@ -240,7 +242,7 @@ void FibonacciHeapNode::concatenateRight(FibonacciHeapNode* newRight)			//Behavi
 		if(parent != nullptr)
 		{
 			parent->setDegree(0);
-			
+
 			FibonacciHeapNode* iterator = newRight;
 
 			do

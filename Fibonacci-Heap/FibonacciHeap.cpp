@@ -16,7 +16,9 @@
 
 //#define DEBUG_FUN_CONSOLIDATE
 
-#define DEBUG_FUN_CONSOLIDATE_SWAP
+#define DEBUG_FUN_CONSOLIDATE_AFTER
+
+//#define DEBUG_FUN_CONSOLIDATE_SWAP
 
 #ifdef DEBUG_FUN_LINK
 
@@ -44,6 +46,18 @@ unsigned long consolidateFunCounter = 0;
 #endif
 
 #ifdef DEBUG_FUN_CONSOLIDATE_SWAP
+
+#include "Auxiliary.h"
+
+#include "GraphvizOutput.h"
+
+#include <string>
+
+unsigned long consolidateFunCounter = 0;
+
+#endif
+
+#ifdef DEBUG_FUN_CONSOLIDATE_AFTER
 
 #include "Auxiliary.h"
 
@@ -230,6 +244,20 @@ bool FibonacciHeap::consolidate()
 
 #endif
 
+#ifdef DEBUG_FUN_CONSOLIDATE_AFTER
+
+	++consolidateFunCounter;
+
+	std::string consolidateStatusCounter = "./diagram/F-Heap-Consolidate-status-swap";
+
+	char statusCounter[20];
+
+	GraphvizOutput debugOutput(consolidateStatusCounter + "a.dot");
+
+	unsigned long localStatusCounter = 0;
+
+#endif
+
 	double tempResult_ = ::log(static_cast<double>(numberOfNodes)) / ::log(2.0);
 
 	unsigned long upperBound = static_cast<unsigned long>(tempResult_) + ((tempResult_ >  static_cast<unsigned long>(tempResult_)) ? 1 : 0); 
@@ -297,9 +325,11 @@ bool FibonacciHeap::consolidate()
 
 	debugOutput.generateDebuggingGraph(current);
 
+	/*
 	debugOutput.resetFile(theRealStatus + "-root-a.dot");
 
 	debugOutput.generateDebuggingGraph(root);
+	*/
 
 #endif
 			adjusting = assistance[currentDegree];
@@ -327,8 +357,12 @@ bool FibonacciHeap::consolidate()
 
 	debugOutput.generateDebuggingGraph(current);
 
+	std::cout << "Swapping: " << current->getKey() << "   " << adjusting->getKey() << std::endl;
+
 #endif
 				tempChild_ = current->getChild();
+
+				if(tempChild_ != nullptr)tempChild_->setParent(nullptr);
 
 				current->setChild(adjusting->getChild());
 
@@ -382,9 +416,11 @@ bool FibonacciHeap::consolidate()
 
 	debugOutput.generateDebuggingGraph(current);
 
+	/*
 	debugOutput.resetFile(theRealStatus + "-root-b.dot");
 
 	debugOutput.generateDebuggingGraph(root);
+	*/
 
 #endif
 
@@ -421,6 +457,26 @@ bool FibonacciHeap::consolidate()
 	}
 
 	root = *targetRoot;
+
+#ifdef DEBUG_FUN_CONSOLIDATE_AFTER
+
+	std::string theAfterRootStatus = consolidateStatusCounter;
+
+	_itoa_s(consolidateFunCounter, statusCounter, 10);
+
+	theAfterRootStatus.append(statusCounter);
+
+	debugOutput.resetFile(theAfterRootStatus + "root.dot");
+
+	debugOutput.generateDebuggingGraph(root);
+
+	/*
+	debugOutput.resetFile(theRealStatus + "-root-b.dot");
+
+	debugOutput.generateDebuggingGraph(root);
+	*/
+
+#endif
 
 	return true;
 }
