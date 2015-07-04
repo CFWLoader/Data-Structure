@@ -36,4 +36,5 @@ Red-Black-Tree/GraphicTreeView/
 \.*
 */.idea/
 *~
+*/CMakeFiles/
 
