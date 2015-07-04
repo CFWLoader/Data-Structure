@@ -12,65 +12,6 @@
 
 #include <algorithm>
 
-//#include <utility>
-
-//#define DEBUG_FUN_LINK
-
-//#define DEBUG_FUN_CONSOLIDATE
-
-//#define DEBUG_FUN_CONSOLIDATE_AFTER
-
-//#define DEBUG_FUN_CONSOLIDATE_SWAP
-
-#ifdef DEBUG_FUN_LINK
-
-#include "Auxiliary.h"
-
-#include "GraphvizOutput.h"
-
-#include <string>
-
-unsigned long linkFunCounter = 0;
-
-#endif
-
-
-#ifdef DEBUG_FUN_CONSOLIDATE
-
-#include "Auxiliary.h"
-
-#include "GraphvizOutput.h"
-
-#include <string>
-
-unsigned long consolidateFunCounter = 0;
-
-#endif
-
-#ifdef DEBUG_FUN_CONSOLIDATE_SWAP
-
-#include "Auxiliary.h"
-
-#include "GraphvizOutput.h"
-
-#include <string>
-
-unsigned long consolidateFunCounter = 0;
-
-#endif
-
-#ifdef DEBUG_FUN_CONSOLIDATE_AFTER
-
-#include "Auxiliary.h"
-
-#include "GraphvizOutput.h"
-
-#include <string>
-
-unsigned long consolidateFunCounter = 0;
-
-#endif
-
 FibonacciHeap::FibonacciHeap() : root(nullptr), numberOfNodes(0)
 {
 }
@@ -127,15 +68,6 @@ bool FibonacciHeap::updateRoots(FibonacciHeapNode* newNode)
 	{
 		iterator = iterator->getRight();
 	}
-
-	/*
-
-	newNode->setRight(iterator);
-
-	newNode->setLeft(iterator->getLeft());
-
-	newNode->getLeft()->setRight(newNode);
-	*/
 
 	if(newNode->getDegree() < iterator->getDegree())
 	{
@@ -260,61 +192,6 @@ unsigned long FibonacciHeap::extractMin()
 //The upper bound used a thoerem: Single node's degree will never be greater than the number of nodes in the heap.
 bool FibonacciHeap::consolidate()
 {
-
-#ifdef DEBUG_FUN_CONSOLIDATE
-
-	++consolidateFunCounter;
-
-	std::string consolidateStatusCounter = "./diagram/F-Heap-Consolidate-status";
-
-	char statusCounter[20];
-
-	GraphvizOutput debugOutput(consolidateStatusCounter + "a.dot");
-
-	unsigned long localStatusCounter = 0;
-
-	/*
-	_itoa_s(consolidateFunCounter, statusCounter, 10);
-
-	linkStatusCounter.append(statusCounter);
-
-	GraphvizOutput debugOutput(consolidateStatusCounter + "a.dot");
-
-	debugOutput.generateDebuggingGraph(root);
-	*/
-
-	//std::cout << "P-Key: " << toBeParent->getKey() << "   C-Key: " << toBeChild->getKey() << std::endl;
-
-#endif
-
-#ifdef DEBUG_FUN_CONSOLIDATE_SWAP
-
-	++consolidateFunCounter;
-
-	std::string consolidateStatusCounter = "./diagram/F-Heap-Consolidate-status-swap";
-
-	char statusCounter[20];
-
-	GraphvizOutput debugOutput(consolidateStatusCounter + "a.dot");
-
-	unsigned long localStatusCounter = 0;
-
-#endif
-
-#ifdef DEBUG_FUN_CONSOLIDATE_AFTER
-
-	++consolidateFunCounter;
-
-	std::string consolidateStatusCounter = "./diagram/F-Heap-Consolidate-status-";
-
-	char statusCounter[20];
-
-	GraphvizOutput debugOutput(consolidateStatusCounter + "a.dot");
-
-	unsigned long localStatusCounter = 0;
-
-#endif
-
 	double tempResult_ = ::log(static_cast<double>(numberOfNodes)) / ::log(2.0);
 
 	unsigned long upperBound = static_cast<unsigned long>(tempResult_) + ((tempResult_ >  static_cast<unsigned long>(tempResult_)) ? 1 : 0); 
@@ -362,61 +239,10 @@ bool FibonacciHeap::consolidate()
 		while(assistance[currentDegree] != nullptr)
 		{
 
-#ifdef DEBUG_FUN_CONSOLIDATE
-
-	++localStatusCounter;
-
-	std::string theRealStatus = consolidateStatusCounter;
-
-	_itoa_s(consolidateFunCounter, statusCounter, 10);
-
-	theRealStatus.append(statusCounter);
-
-	theRealStatus.append("-local-");
-
-	_itoa_s(localStatusCounter, statusCounter, 10);
-
-	theRealStatus.append(statusCounter);
-
-	debugOutput.resetFile(theRealStatus + "a.dot");
-
-	debugOutput.generateDebuggingGraph(current);
-
-	/*
-	debugOutput.resetFile(theRealStatus + "-root-a.dot");
-
-	debugOutput.generateDebuggingGraph(root);
-	*/
-
-#endif
 			adjusting = assistance[currentDegree];
 
 			if(current->getKey() > adjusting->getKey())
 			{
-
-#ifdef DEBUG_FUN_CONSOLIDATE_SWAP
-
-	++localStatusCounter;
-
-	std::string theRealStatus = consolidateStatusCounter;
-
-	_itoa_s(consolidateFunCounter, statusCounter, 10);
-
-	theRealStatus.append(statusCounter);
-
-	theRealStatus.append("-local-");
-
-	_itoa_s(localStatusCounter, statusCounter, 10);
-
-	theRealStatus.append(statusCounter);
-
-	debugOutput.resetFile(theRealStatus + "a.dot");
-
-	debugOutput.generateDebuggingGraph(current);
-
-	std::cout << "Swapping: " << current->getKey() << "   " << adjusting->getKey() << std::endl;
-
-#endif
 				tempChild_ = current->getChild();
 
 				if(tempChild_ != nullptr)tempChild_->setParent(nullptr);
@@ -430,58 +256,11 @@ bool FibonacciHeap::consolidate()
 				current->setKey(adjusting->getKey());
 
 				adjusting->setKey(tempKey_);
-				//std::swap(current, adjusting);
-
-#ifdef DEBUG_FUN_CONSOLIDATE_SWAP
-
-	std::string theAfterStatus = consolidateStatusCounter;
-
-	_itoa_s(consolidateFunCounter, statusCounter, 10);
-
-	theAfterStatus.append(statusCounter);
-
-	theAfterStatus.append("-local-");
-
-	_itoa_s(localStatusCounter, statusCounter, 10);
-
-	theAfterStatus.append(statusCounter);
-
-	debugOutput.resetFile(theRealStatus + "b.dot");
-
-	debugOutput.generateDebuggingGraph(current);
-
-#endif
 			}
 
 			this->link(adjusting, current);
 
 			rootContainer.erase(find(rootContainer.begin(), rootContainer.end(), adjusting));
-
-#ifdef DEBUG_FUN_CONSOLIDATE
-
-	std::string theAfterStatus = consolidateStatusCounter;
-
-	_itoa_s(consolidateFunCounter, statusCounter, 10);
-
-	theAfterStatus.append(statusCounter);
-
-	theAfterStatus.append("-local-");
-
-	_itoa_s(localStatusCounter, statusCounter, 10);
-
-	theAfterStatus.append(statusCounter);
-
-	debugOutput.resetFile(theRealStatus + "b.dot");
-
-	debugOutput.generateDebuggingGraph(current);
-
-	/*
-	debugOutput.resetFile(theRealStatus + "-root-b.dot");
-
-	debugOutput.generateDebuggingGraph(root);
-	*/
-
-#endif
 
 			assistance[currentDegree] = nullptr;
 
@@ -491,12 +270,6 @@ bool FibonacciHeap::consolidate()
 		assistance[currentDegree] = current;
 
 	}
-
-#ifdef DEBUG_FUN_CONSOLIDATE
-
-	std::cout << "Main of consolidation finished." << std::endl;
-
-#endif
 
 	std::deque<FibonacciHeapNode*>::iterator targetRoot;							//Reset the root before add the left node.
 
@@ -511,21 +284,6 @@ bool FibonacciHeap::consolidate()
 	}
 
 	root = *targetRoot;
-/*
-#ifdef DEBUG_FUN_CONSOLIDATE_AFTER
-
-	std::string theSelectedStatus = consolidateStatusCounter;
-
-	_itoa_s(consolidateFunCounter, statusCounter, 10);
-
-	theSelectedStatus.append(statusCounter);
-
-	debugOutput.resetFile(theSelectedStatus + "sel.dot");
-
-	debugOutput.generateDebuggingGraph(root);
-
-#endif
-*/
 
 	for(unsigned long index = 0; index < upperBound; ++index)									//Checking the left.
 	{
@@ -535,55 +293,13 @@ bool FibonacciHeap::consolidate()
 		}
 	}
 
-#ifdef DEBUG_FUN_CONSOLIDATE
-
-	std::string theFinishedStatus = consolidateStatusCounter;
-
-	_itoa_s(consolidateFunCounter, statusCounter, 10);
-
-	theFinishedStatus.append(statusCounter);
-
-	debugOutput.resetFile(theFinishedStatus + "fin.dot");
-
-	debugOutput.generateDebuggingGraph(*targetRoot);
-
-#endif
-
 	return true;
 }
 
 bool FibonacciHeap::link(FibonacciHeapNode* toBeChild, FibonacciHeapNode* toBeParent)
 {
-#ifdef DEBUG_FUN_LINK
-
-	++linkFunCounter;
-
-	std::string linkStatusCounter = "./diagram/F-Heap-Link-status";
-
-	char statusCounter[20];
-
-	_itoa_s(linkFunCounter, statusCounter, 10);
-
-	linkStatusCounter.append(statusCounter);
-
-	GraphvizOutput debugOutput(linkStatusCounter + "a.dot");
-
-	debugOutput.generateDebuggingGraph(toBeParent);
-
-	std::cout << "P-Key: " << toBeParent->getKey() << "   C-Key: " << toBeChild->getKey() << std::endl;
-
-#endif
 
 	toBeChild->getLeft()->setRight(nullptr);
-	//toBeChild->isolate();
-
-#ifdef DEBUG_FUN_LINK
-
-	debugOutput.resetFile(linkStatusCounter + "b.dot");
-
-	debugOutput.generateDebuggingGraph(toBeParent);
-
-#endif
 
 	if(toBeParent->getChild() == nullptr)
 	{
@@ -595,14 +311,6 @@ bool FibonacciHeap::link(FibonacciHeapNode* toBeChild, FibonacciHeapNode* toBePa
 	}
 
 	toBeChild->setMarkFlag(false);
-
-#ifdef DEBUG_FUN_LINK
-
-	debugOutput.resetFile(linkStatusCounter + "c.dot");
-
-	debugOutput.generateDebuggingGraph(toBeParent);
-
-#endif
 
 	return  true;
 }
