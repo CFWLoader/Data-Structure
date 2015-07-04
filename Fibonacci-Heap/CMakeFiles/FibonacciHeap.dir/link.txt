@@ -1,1 +1,0 @@
-/usr/bin/c++    -std=c++11 -Wall -g    CMakeFiles/FibonacciHeap.dir/Auxiliary.cpp.o CMakeFiles/FibonacciHeap.dir/FibonacciHeapNode.cpp.o CMakeFiles/FibonacciHeap.dir/FibonacciHeap.cpp.o CMakeFiles/FibonacciHeap.dir/GraphvizOutput.cpp.o CMakeFiles/FibonacciHeap.dir/main.cpp.o  -o FibonacciHeap -rdynamic 
