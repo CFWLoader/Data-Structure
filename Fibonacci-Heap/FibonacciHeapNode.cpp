@@ -239,6 +239,8 @@ void FibonacciHeapNode::concatenateRight(FibonacciHeapNode* newRight)			//Behavi
 
 		if(parent != nullptr)
 		{
+			parent->setDegree(0);
+			
 			FibonacciHeapNode* iterator = newRight;
 
 			do

@@ -14,7 +14,9 @@
 
 //#define DEBUG_FUN_LINK
 
-#define DEBUG_FUN_CONSOLIDATE
+//#define DEBUG_FUN_CONSOLIDATE
+
+#define DEBUG_FUN_CONSOLIDATE_SWAP
 
 #ifdef DEBUG_FUN_LINK
 
@@ -30,6 +32,18 @@ unsigned long linkFunCounter = 0;
 
 
 #ifdef DEBUG_FUN_CONSOLIDATE
+
+#include "Auxiliary.h"
+
+#include "GraphvizOutput.h"
+
+#include <string>
+
+unsigned long consolidateFunCounter = 0;
+
+#endif
+
+#ifdef DEBUG_FUN_CONSOLIDATE_SWAP
 
 #include "Auxiliary.h"
 
@@ -202,6 +216,20 @@ bool FibonacciHeap::consolidate()
 
 #endif
 
+#ifdef DEBUG_FUN_CONSOLIDATE_SWAP
+
+	++consolidateFunCounter;
+
+	std::string consolidateStatusCounter = "./diagram/F-Heap-Consolidate-status-swap";
+
+	char statusCounter[20];
+
+	GraphvizOutput debugOutput(consolidateStatusCounter + "a.dot");
+
+	unsigned long localStatusCounter = 0;
+
+#endif
+
 	double tempResult_ = ::log(static_cast<double>(numberOfNodes)) / ::log(2.0);
 
 	unsigned long upperBound = static_cast<unsigned long>(tempResult_) + ((tempResult_ >  static_cast<unsigned long>(tempResult_)) ? 1 : 0); 
@@ -279,6 +307,27 @@ bool FibonacciHeap::consolidate()
 			if(current->getKey() > adjusting->getKey())
 			{
 
+#ifdef DEBUG_FUN_CONSOLIDATE_SWAP
+
+	++localStatusCounter;
+
+	std::string theRealStatus = consolidateStatusCounter;
+
+	_itoa_s(consolidateFunCounter, statusCounter, 10);
+
+	theRealStatus.append(statusCounter);
+
+	theRealStatus.append("-local-");
+
+	_itoa_s(localStatusCounter, statusCounter, 10);
+
+	theRealStatus.append(statusCounter);
+
+	debugOutput.resetFile(theRealStatus + "a.dot");
+
+	debugOutput.generateDebuggingGraph(current);
+
+#endif
 				tempChild_ = current->getChild();
 
 				current->setChild(adjusting->getChild());
@@ -291,6 +340,26 @@ bool FibonacciHeap::consolidate()
 
 				adjusting->setKey(tempKey_);
 				//std::swap(current, adjusting);
+
+#ifdef DEBUG_FUN_CONSOLIDATE_SWAP
+
+	std::string theAfterStatus = consolidateStatusCounter;
+
+	_itoa_s(consolidateFunCounter, statusCounter, 10);
+
+	theAfterStatus.append(statusCounter);
+
+	theAfterStatus.append("-local-");
+
+	_itoa_s(localStatusCounter, statusCounter, 10);
+
+	theAfterStatus.append(statusCounter);
+
+	debugOutput.resetFile(theRealStatus + "b.dot");
+
+	debugOutput.generateDebuggingGraph(current);
+
+#endif
 			}
 
 			this->link(adjusting, current);
