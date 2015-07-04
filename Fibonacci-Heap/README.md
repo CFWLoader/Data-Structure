@@ -11,6 +11,6 @@ Algorithms in F-Heap almost use do-while structure to fix the bidirectional link
 -	Memory leaking in FibonacciHeapNode class's detructor.
 -	Logic of setting brothers leads fatal error.
 -	Setter function can't demand the logic of concatenating two node lists.
+-	Having to add a function of FibonacciHeapNode to fix the link function of FibonacciHeap.
 
 ## Current Problem
--	Having to add a function of FibonacciHeapNode to fix the link function of FibonacciHeap.

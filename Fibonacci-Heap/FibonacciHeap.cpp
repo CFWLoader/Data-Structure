@@ -10,13 +10,15 @@
 
 #include <vector>
 
+#include <algorithm>
+
 //#include <utility>
 
 //#define DEBUG_FUN_LINK
 
 //#define DEBUG_FUN_CONSOLIDATE
 
-#define DEBUG_FUN_CONSOLIDATE_AFTER
+//#define DEBUG_FUN_CONSOLIDATE_AFTER
 
 //#define DEBUG_FUN_CONSOLIDATE_SWAP
 
@@ -94,6 +96,20 @@ bool FibonacciHeap::insert(FibonacciHeapNode* theNewNode)
 	++numberOfNodes;
 
 	return this->updateRoots(theNewNode);
+}
+
+bool FibonacciHeap::isExistedInRootList(FibonacciHeapNode* checkingNode)
+{
+	FibonacciHeapNode* iterator = this->root;
+
+	do
+	{
+		if(iterator == checkingNode)return true;
+
+		iterator = iterator->getRight();
+	}while(iterator != root);
+
+	return false;
 }
 
 bool FibonacciHeap::updateRoots(FibonacciHeapNode* newNode)
@@ -398,6 +414,8 @@ bool FibonacciHeap::consolidate()
 
 			this->link(adjusting, current);
 
+			rootContainer.erase(find(rootContainer.begin(), rootContainer.end(), adjusting));
+
 #ifdef DEBUG_FUN_CONSOLIDATE
 
 	std::string theAfterStatus = consolidateStatusCounter;
@@ -439,23 +457,20 @@ bool FibonacciHeap::consolidate()
 
 #endif
 
-	std::deque<FibonacciHeapNode*>::iterator targetRoot;	
+	std::deque<FibonacciHeapNode*>::iterator targetRoot;							//Reset the root before add the left node.
 
 	for(targetRoot = rootIterator = rootContainer.begin(), end = rootContainer.end();
 		rootIterator != end;
 		++rootIterator)
 	{
-		if((*rootIterator)->getParent() == nullptr)
+		if((*targetRoot)->getParent() != nullptr || (*targetRoot)->getKey() > (*rootIterator)->getKey())
 		{
-			if((*targetRoot)->getParent() != nullptr || (*targetRoot)->getKey() > (*rootIterator)->getKey())
-			{
-				targetRoot = rootIterator;
-			}
+			targetRoot = rootIterator;
 		}
 	}
 
 	root = *targetRoot;
-
+/*
 #ifdef DEBUG_FUN_CONSOLIDATE_AFTER
 
 	std::string theSelectedStatus = consolidateStatusCounter;
@@ -469,12 +484,13 @@ bool FibonacciHeap::consolidate()
 	debugOutput.generateDebuggingGraph(root);
 
 #endif
+*/
 
 	for(unsigned long index = 0; index < upperBound; ++index)									//Checking the left.
 	{
-		if(assistance[index] != nullptr)
+		if(assistance[index] != nullptr && !this->isExistedInRootList(assistance[index]))		//Add a new contriant -- check the node is in the root list.
 		{
-			root->getLeft()->concatenateRight(assistance[index]);
+			root->getLeft()->setRight(assistance[index]);
 		}
 	}
 

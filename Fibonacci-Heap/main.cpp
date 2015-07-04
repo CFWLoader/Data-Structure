@@ -63,6 +63,12 @@ int main(int argc, char* argv[])
 
 		statusName.append(statusCount);
 
+		statusName.append("-extract-");
+
+		_itoa_s(min, statusCount, 10);
+
+		statusName.append(statusCount);
+
 		statusName.append(".dot");
 
 		GraphvizOutput status(statusName);

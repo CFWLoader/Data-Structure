@@ -37,6 +37,9 @@ public:
 	inline void detach();
 
 private:
+	
+	bool isExistedInRootList(FibonacciHeapNode*);
+
 	bool updateRoots(FibonacciHeapNode*);
 
 	FibonacciHeapNode* root;
