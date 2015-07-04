@@ -248,7 +248,7 @@ bool FibonacciHeap::consolidate()
 
 	++consolidateFunCounter;
 
-	std::string consolidateStatusCounter = "./diagram/F-Heap-Consolidate-status-swap";
+	std::string consolidateStatusCounter = "./diagram/F-Heap-Consolidate-status-";
 
 	char statusCounter[20];
 
@@ -433,13 +433,11 @@ bool FibonacciHeap::consolidate()
 
 	}
 
-	for(unsigned long index = 0; index < upperBound; ++index)									//Checking the left.
-	{
-		if(assistance[index] != nullptr)
-		{
-			root->getLeft()->concatenateRight(assistance[index]);
-		}
-	}
+#ifdef DEBUG_FUN_CONSOLIDATE
+
+	std::cout << "Main of consolidation finished." << std::endl;
+
+#endif
 
 	std::deque<FibonacciHeapNode*>::iterator targetRoot;	
 
@@ -460,21 +458,37 @@ bool FibonacciHeap::consolidate()
 
 #ifdef DEBUG_FUN_CONSOLIDATE_AFTER
 
-	std::string theAfterRootStatus = consolidateStatusCounter;
+	std::string theSelectedStatus = consolidateStatusCounter;
 
 	_itoa_s(consolidateFunCounter, statusCounter, 10);
 
-	theAfterRootStatus.append(statusCounter);
+	theSelectedStatus.append(statusCounter);
 
-	debugOutput.resetFile(theAfterRootStatus + "root.dot");
-
-	debugOutput.generateDebuggingGraph(root);
-
-	/*
-	debugOutput.resetFile(theRealStatus + "-root-b.dot");
+	debugOutput.resetFile(theSelectedStatus + "sel.dot");
 
 	debugOutput.generateDebuggingGraph(root);
-	*/
+
+#endif
+
+	for(unsigned long index = 0; index < upperBound; ++index)									//Checking the left.
+	{
+		if(assistance[index] != nullptr)
+		{
+			root->getLeft()->concatenateRight(assistance[index]);
+		}
+	}
+
+#ifdef DEBUG_FUN_CONSOLIDATE
+
+	std::string theFinishedStatus = consolidateStatusCounter;
+
+	_itoa_s(consolidateFunCounter, statusCounter, 10);
+
+	theFinishedStatus.append(statusCounter);
+
+	debugOutput.resetFile(theFinishedStatus + "fin.dot");
+
+	debugOutput.generateDebuggingGraph(*targetRoot);
 
 #endif
 
