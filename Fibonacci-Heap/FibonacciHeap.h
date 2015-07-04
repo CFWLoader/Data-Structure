@@ -24,6 +24,10 @@ public:
 
 	bool link(FibonacciHeapNode*, FibonacciHeapNode*);
 
+	bool decreaseKey(FibonacciHeapNode* , unsigned long);
+
+	bool deleteNode(FibonacciHeapNode*);
+
 	size_t getMaxDegreeOfSingleNodeInTheHeap() const;
 
 	unsigned long phi();
@@ -37,10 +41,14 @@ public:
 	inline void detach();
 
 private:
-	
+
 	bool isExistedInRootList(FibonacciHeapNode*);
 
 	bool updateRoots(FibonacciHeapNode*);
+
+	bool cut(FibonacciHeapNode*, FibonacciHeapNode*);
+
+	bool cascadingCut(FibonacciHeapNode*);
 
 	FibonacciHeapNode* root;
 

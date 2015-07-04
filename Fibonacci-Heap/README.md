@@ -14,3 +14,4 @@ Algorithms in F-Heap almost use do-while structure to fix the bidirectional link
 -	Having to add a function of FibonacciHeapNode to fix the link function of FibonacciHeap.
 
 ## Current Problem
+-	FibonacciHeap::cut(), FibonacciHeap::cascadindCut(), FibonacciHeap::deleteNode() are coded but not tested.

@@ -154,6 +154,47 @@ bool FibonacciHeap::updateRoots(FibonacciHeapNode* newNode)
 	return true;
 }
 
+bool FibonacciHeap::cut(FibonacciHeapNode* childNode, FibonacciHeapNode* parentNode)
+{
+	if(childNode->getRight() == childNode)
+	{
+		parentNode->setChild(nullptr);
+	}
+	else
+	{
+		childNode->getRight()->setLeft(nullptr);
+	}
+
+	root->getLeft()->setRight(childNode);
+
+	childNode->setParent(nullptr);
+
+	parentNode->setMarkFlag(false);
+
+	return true;
+}
+
+bool FibonacciHeap::cascadingCut(FibonacciHeapNode* cuttingNode)
+{
+	FibonacciHeapNode* nodeRecord = cuttingNode->getParent();
+
+	if(nodeRecord != nullptr)
+	{
+		if(cuttingNode->isMarked() == false)
+		{
+			cuttingNode->setMarkFlag(true);
+		}
+		else
+		{
+			this->cut(cuttingNode, nodeRecord);
+
+			this->cascadingCut(nodeRecord);
+		}
+	}
+
+	return true;
+}
+
 bool FibonacciHeap::unionHeap(FibonacciHeap* unioningHeap)
 {
 	root->getLeft()->concatenateRight(unioningHeap->root);
@@ -564,6 +605,38 @@ bool FibonacciHeap::link(FibonacciHeapNode* toBeChild, FibonacciHeapNode* toBePa
 #endif
 
 	return  true;
+}
+
+bool FibonacciHeap::decreaseKey(FibonacciHeapNode* targetNode, unsigned long newKey)
+{
+	if(newKey > targetNode->getKey())
+	{
+		std::cerr << "The new key is greater than the old key.Operation aborted." << std::endl;
+
+		return false;
+	}
+
+	targetNode->setKey(newKey);
+
+	FibonacciHeapNode* adjustingNode = targetNode->getParent();
+
+	if(adjustingNode != nullptr && adjustingNode->getKey() > targetNode->getKey())
+	{
+		this->cut(targetNode, adjustingNode);
+
+		this->cascadingCut(adjustingNode);
+	}
+
+	return true;
+}
+
+bool FibonacciHeap::deleteNode(FibonacciHeapNode* targetNode)
+{
+	this->decreaseKey(targetNode, 0);
+
+	this->extractMin();
+
+	return true;
 }
 
 size_t FibonacciHeap::getMaxDegreeOfSingleNodeInTheHeap() const
